@@ -128,7 +128,7 @@ PRINT_BEST_MOVES_IN_TERMINAL = False
 evaluating each position."""
 
 TIME_BETWEEN_CONSECUTIVE_IMG_CAPTURES = (
-    1  # This means we capture 1 image per second when tuning the sliders
+    1  # This means we capture 1 image per second when tuning the slider values
 )
 """Parameter determining image-capture frequency during slider-value tuning."""
 

@@ -11,7 +11,6 @@ import chess
 import chess.pgn
 import cv2
 
-
 from lpspectator.evaluate_position import (
     initialize_engine,
     generate_engine_output,

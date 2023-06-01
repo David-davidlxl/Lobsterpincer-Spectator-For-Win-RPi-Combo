@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import chess
 
+
 IMAGE_SOURCE = "http://10.0.0.45:8080/video"
 # IMAGE_SOURCE = "http://35.6.92.68:8080/video"
 # IMAGE_SOURCE = "rtsp://192.168.248.88:554/out.h264"

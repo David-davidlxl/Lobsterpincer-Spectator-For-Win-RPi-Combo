@@ -28,7 +28,7 @@ Lobsterpincer Spectator (named after the "Lobster Pincer mate") is a chessboard 
 
 ## Software Installation
 
-The only dependencies of “ChessPieceModelTraining” are [`numpy`](https://pypi.org/project/numpy/) and [`Pillow`](https://pypi.org/project/Pillow/), which are automatically installed on the Windows computer during the installation procedure for "LobsterpincerSpectatorForWinRPiCombo" presented below.
+The only dependencies of "ChessPieceModelTraining" are [`numpy`](https://pypi.org/project/numpy/) and [`Pillow`](https://pypi.org/project/Pillow/), which are automatically installed on the Windows computer during the installation procedure for "LobsterpincerSpectatorForWinRPiCombo" presented below.
 
 The installation procedure (for "LobsterpincerSpectatorForWinRPiCombo") below has been tested to be fully functional for Windows 11 and Raspberry Pi 4B.
 
@@ -82,7 +82,7 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 
 Since Raspberry Pi is only used for controlling the LED lights and LCD screen, the software installation procedure for it is very simple.
 
-First, run the following commands in Raspberry Pi’s Terminal (you can copy, paste, and run all of them at once):
+First, run the following commands in Raspberry Pi's Terminal (you can copy, paste, and run all of them at once):
 
 ```
 sudo apt-get update
@@ -99,17 +99,17 @@ Finally, download "configure_led_rpi.py" and "configure_lcd_rpi.py" (in the "Lob
 
 ## Hardware Configuration
 
-(Note: if you do not configure the hardware at all, the main program “lobsterpincer_spectator.py” can still run without error and without damaging Raspberry Pi in any way (you just won’t see the screen and light outputs during the execution of the program). Also note that the information that the screen and lights convey is always shown in the “Current position” window on the computer screen.)
+(Note: if you do not configure the hardware at all, the main program "lobsterpincer_spectator.py" can still run without error and without damaging Raspberry Pi in any way (the screen and light outputs will just be absent during the execution of the program). Also note that the information that the screen and lights convey is always shown in the "Current position" window on the computer screen.)
 
-First, for configuring the LCD screen ([purchase link](https://www.piccircuit.com/shop/display/36-46-2x16-lcd-display-blue-backlight.html)), follow the “WIRING THE LCD IN 4 BIT MODE” section of [HOW TO SETUP AN LCD ON THE RASPBERRY PI AND PROGRAM IT WITH PYTHON](https://www.circuitbasics.com/raspberry-pi-lcd-set-up-and-programming-in-python/) to connect the LCD to Raspberry Pi through a breadboard. (Note that you’ll also need two potentiometers/resistors, as explained in the link.)
+First, for configuring the LCD screen ([purchase link](https://www.piccircuit.com/shop/display/36-46-2x16-lcd-display-blue-backlight.html)), follow the "WIRING THE LCD IN 4 BIT MODE" section of [HOW TO SETUP AN LCD ON THE RASPBERRY PI AND PROGRAM IT WITH PYTHON](https://www.circuitbasics.com/raspberry-pi-lcd-set-up-and-programming-in-python/) to connect the LCD to Raspberry Pi through a breadboard. (Note that you will also need two potentiometers/resistors, as explained in the link.)
 
-Now, before configuring the 8 LED lights ([purchase link](https://www.amazon.com/White-Individual-Single-Attached-Bright/dp/B078THB7BN)), it is important to understand how they will be used. These lights function as an evaluation bar. So the lights are arranged in a linear, ordered fashion. In the paragraph below, the leftmost light is referred to as the “first LED,” the second light from the left is referred to as the “second LED,” . . ., and the rightmost light is referred to as the “eighth LED.” The following figure illustrates the case where the first four lights are on and the last four lights are off:
+Now, before configuring the 8 LED lights ([purchase link](https://www.amazon.com/White-Individual-Single-Attached-Bright/dp/B078THB7BN)), it is important to understand how they will be used. These lights function as an evaluation bar. So the lights are arranged in a linear, ordered fashion. In the paragraph below, the leftmost light is referred to as the "first LED," the second light from the left is referred to as the "second LED," . . ., and the rightmost light is referred to as the "eighth LED." The following figure illustrates the case where the first four lights are on and the last four lights are off:
 
 ![](README%20attachments/Illustration%20of%20LED%20arrangement.jpg)
 
 For each of the 8 LED lights, connect the black wire to the ground strip of the breadboard and connect the red wire to their respective board pins on Raspberry Pi. The first LED should be connected to Raspberry Pi's board pin 11, second LED to board pin 13, third LED to board pin 15, fourth LED to board pin 16, fifth LED to board pin 18, sixth LED to board pin 22, seventh LED to board pin 36, and eighth LED to board pin 38.
 
-If you are not familiar with wiring in general, you can see the example shown in the “Hardware setup - Make a circuit with your Raspberry Pi and the LED” section of [Control an LED with Raspberry Pi 4 and Python 3](https://roboticsbackend.com/raspberry-pi-control-led-python-3/#:~:text=Control%20an%20LED%20with%20Raspberry%20Pi%204%20and,Conclusion%20%E2%80%93%20Control%20LED%20from%20Raspberry%20Pi%20). In this example, the short leg of the LED is connected to the ground through the black wire and the long leg of the LED is connected to GPIO pin 17 (which corresponds to board pin 11) through the yellow wire. Note that this example uses the BCM numbering mode (`GPIO.BCM`) instead of the BOARD numbering mode (`GPIO.BOARD`) that the paragraph above assumes. For information on how these numbering modes differ, see [What is the difference between BOARD and BCM for GPIO pin numbering?](https://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering).
+If you are not familiar with wiring in general, you can see the example shown in the "Hardware setup - Make a circuit with your Raspberry Pi and the LED" section of [Control an LED with Raspberry Pi 4 and Python 3](https://roboticsbackend.com/raspberry-pi-control-led-python-3/#:~:text=Control%20an%20LED%20with%20Raspberry%20Pi%204%20and,Conclusion%20%E2%80%93%20Control%20LED%20from%20Raspberry%20Pi%20). In this example, the short leg of the LED is connected to the ground through the black wire and the long leg of the LED is connected to GPIO pin 17 (which corresponds to board pin 11) through the yellow wire. Note that this example uses the BCM numbering mode (`GPIO.BCM`) instead of the BOARD numbering mode (`GPIO.BOARD`) that the paragraph above assumes. For information on how these numbering modes differ, see [What is the difference between BOARD and BCM for GPIO pin numbering?](https://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering).
 
 ## Data Collection and Model Training
 
@@ -140,13 +140,13 @@ Next, process the data and obtain the trained model as follows:
 
 3. Compress the "ChessPieceModelTraining/DataSplitter/data" folder into a "data.zip" ZIP-file (in the "ChessPieceModelTraining/DataSplitter" folder).
 
-4. Open "SqueezeNet1p1_model_training.ipynb" (in "ChessPieceModelTraining/ModelTrainer") with Google Colab, enable GPU on Google Colab, and upload the "data.zip" (in the "ChessPieceModelTraining/DataSplitter" folder) and "models.zip" file (in the "ChessPieceModelTraining/ModelTrainer" folder) to Google Colab.
+4. Open "SqueezeNet1p1_model_training.ipynb" (in "ChessPieceModelTraining/ModelTrainer") with Google Colab, enable GPU on Google Colab, and upload the "data.zip" (in "ChessPieceModelTraining/DataSplitter") and "models.zip" (in "ChessPieceModelTraining/ModelTrainer") files to Google Colab.
 
 5. Run the entire "SqueezeNet1p1_model_training.ipynb" notebook to perform transfer learning (which should take at least a couple of hours, but exactly how long it takes depends on how much image data you collected in the first place).
 
 6. Download the "SqueezeNet1p1_all_last.onnx" (and, optionally, "SqueezeNet1p1_all_last.h5") from Google Colab (in the "models" folder) to the "LobsterpincerSpectatorForWinRPiCombo/livechess2fen/selected_models" folder.
 
-The following video walks through the entire data-collection-and-model-training procedure. Only 5 images under the same lighting condition are collected in this demo in order to keep the video brief; you want to collect hundreds of images under various lighting conditions in practice. Also, even though Raspberry Pi and ["LobsterpincerSpectatorForRPi"](https://github.com/David-davidlxl/Lobsterpincer-Spectator-For-RPi/tree/main/LobsterpincerSpectatorForRPi) are used for data collection in this demo, the process is very much the same for a Windows computer and "LobsterpincerSpectatorForWinRPiCombo".
+The following video walks through the entire data-collection-and-model-training procedure. Only 5 images under the same lighting condition are collected in this demo in order to keep the video brief; you want to collect hundreds of images under various lighting conditions in practice. Also, even though ["LobsterpincerSpectatorForRPi"](https://github.com/David-davidlxl/Lobsterpincer-Spectator-For-RPi/tree/main/LobsterpincerSpectatorForRPi) and Raspberry Pi are used for data collection in this demo, the procedure is very much the same for "LobsterpincerSpectatorForWinRPiCombo" and a Windows computer.
 
 [![](https://markdown-videos.deta.dev/youtube/Yl_WZxMeNjk)](https://youtu.be/Yl_WZxMeNjk)
 
@@ -165,9 +165,9 @@ To use the main program, "lobsterpincer_spectator.py" (in "LobsterpincerSpectato
 
 2. Run "lobsterpincer_spectator.py" from the "LobsterpincerSpectatorForWinRPiCombo" directory and tune the slider values.
 
-3. Play the game against your opponent. At any point during the game, feel free to press 'p' to pause the program, press 'r' to resume the program, or press 'q' to quit the program.
+3. Play the game against your opponent (the game you play has nothing to do with the "LobsterpincerSpectatorForWinRPiCombo/game_to_be_played.pgn" file, by the way, which is only relevant to data collection). At any point during the game, feel free to press 'p' to pause the program, press 'r' to resume the program, or press 'q' to quit the program.
 
-4. After the game, feel free to use "saved_game.pgn" for postgame analysis.
+4. After the game, feel free to use "saved_game.pgn" (in "LobsterpincerSpectatorForWinRPiCombo") for postgame analysis.
 
 The video in the [Overview](#overview) section demos the case where `BOARD_CORNERS` is set to `[[0, 0], [1199, 0], [1199, 1199], [0, 1199]]`. In this case, manual (predetermined) chessboard detection is used, which accelerates the move-registration process (each move takes at most 6 seconds to register with Intel Core i5-8250U). If `BOARD_CORNERS` is set to `None`, automatic (neural-network-based) chessboard detection is used, and each moves takes at most 8 seconds to register with Intel Core i5-8250U.
 

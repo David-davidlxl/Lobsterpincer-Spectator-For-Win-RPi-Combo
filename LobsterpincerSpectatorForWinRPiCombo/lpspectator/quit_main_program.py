@@ -3,6 +3,7 @@
 (This module is not intended to be used separately; you'll run into `ModuleNotFoundError` if you run this file directly.)
 """
 
+
 import chess.engine
 import cv2
 
