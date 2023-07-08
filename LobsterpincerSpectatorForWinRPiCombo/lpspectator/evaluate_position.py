@@ -245,17 +245,19 @@ def detect_lobsterpincer(board: chess.Board) -> bool:
         and board.color_at(chess.G7) == chess.WHITE
         and (
             (
-                board.piece_type_at(chess.F6) == chess.PAWN
-                or board.piece_type_at(chess.F6) == chess.BISHOP
+                (
+                    board.piece_type_at(chess.F6) == chess.PAWN
+                    or board.piece_type_at(chess.F6) == chess.BISHOP
+                )
+                and board.color_at(chess.F6) == chess.WHITE
             )
-            and board.color_at(chess.F6) == chess.WHITE
-        )
-        or (
-            (
-                board.piece_type_at(chess.H6) == chess.PAWN
-                or board.piece_type_at(chess.H6) == chess.BISHOP
+            or (
+                (
+                    board.piece_type_at(chess.H6) == chess.PAWN
+                    or board.piece_type_at(chess.H6) == chess.BISHOP
+                )
+                and board.color_at(chess.H6) == chess.WHITE
             )
-            and board.color_at(chess.H6) == chess.WHITE
         )
     ):  # This is case 1 (top-right corner)
         return True
@@ -276,17 +278,19 @@ def detect_lobsterpincer(board: chess.Board) -> bool:
         and board.color_at(chess.B7) == chess.WHITE
         and (
             (
-                board.piece_type_at(chess.C6) == chess.PAWN
-                or board.piece_type_at(chess.C6) == chess.BISHOP
+                (
+                    board.piece_type_at(chess.C6) == chess.PAWN
+                    or board.piece_type_at(chess.C6) == chess.BISHOP
+                )
+                and board.color_at(chess.C6) == chess.WHITE
             )
-            and board.color_at(chess.C6) == chess.WHITE
-        )
-        or (
-            (
-                board.piece_type_at(chess.A6) == chess.PAWN
-                or board.piece_type_at(chess.A6) == chess.BISHOP
+            or (
+                (
+                    board.piece_type_at(chess.A6) == chess.PAWN
+                    or board.piece_type_at(chess.A6) == chess.BISHOP
+                )
+                and board.color_at(chess.A6) == chess.WHITE
             )
-            and board.color_at(chess.A6) == chess.WHITE
         )
     ):  # This is case 2 (top-left corner)
         return True
@@ -307,17 +311,19 @@ def detect_lobsterpincer(board: chess.Board) -> bool:
         and board.color_at(chess.B2) == chess.BLACK
         and (
             (
-                board.piece_type_at(chess.C3) == chess.PAWN
-                or board.piece_type_at(chess.C3) == chess.BISHOP
+                (
+                    board.piece_type_at(chess.C3) == chess.PAWN
+                    or board.piece_type_at(chess.C3) == chess.BISHOP
+                )
+                and board.color_at(chess.C3) == chess.BLACK
             )
-            and board.color_at(chess.C3) == chess.BLACK
-        )
-        or (
-            (
-                board.piece_type_at(chess.A3) == chess.PAWN
-                or board.piece_type_at(chess.A3) == chess.BISHOP
+            or (
+                (
+                    board.piece_type_at(chess.A3) == chess.PAWN
+                    or board.piece_type_at(chess.A3) == chess.BISHOP
+                )
+                and board.color_at(chess.A3) == chess.BLACK
             )
-            and board.color_at(chess.A3) == chess.BLACK
         )
     ):  # This is case 3 (bottom-left corner)
         return True
@@ -338,17 +344,19 @@ def detect_lobsterpincer(board: chess.Board) -> bool:
         and board.color_at(chess.G2) == chess.BLACK
         and (
             (
-                board.piece_type_at(chess.F3) == chess.PAWN
-                or board.piece_type_at(chess.F3) == chess.BISHOP
+                (
+                    board.piece_type_at(chess.F3) == chess.PAWN
+                    or board.piece_type_at(chess.F3) == chess.BISHOP
+                )
+                and board.color_at(chess.F3) == chess.BLACK
             )
-            and board.color_at(chess.F3) == chess.BLACK
-        )
-        or (
-            (
-                board.piece_type_at(chess.H3) == chess.PAWN
-                or board.piece_type_at(chess.H3) == chess.BISHOP
+            or (
+                (
+                    board.piece_type_at(chess.H3) == chess.PAWN
+                    or board.piece_type_at(chess.H3) == chess.BISHOP
+                )
+                and board.color_at(chess.H3) == chess.BLACK
             )
-            and board.color_at(chess.H3) == chess.BLACK
         )
     ):  # This is case 4 (bottom-right corner)
         return True
