@@ -1,18 +1,21 @@
 """This is the data-splitting program.
 
-It takes the full data (in the "data/full" directory), randomizes them, and split them into
-training data (in the "data/train" directory) and validation data (in the "data/validation" directory).
+It takes the full data (in the "data/full" directory), randomizes them,
+and splits them into training data (in the "data/train" directory) and
+validation data (in the "data/validation" directory).
 
-Note: this program is a slight modification of the "dataset.py" program (in the "cpmodels" folder) of the
-LiveChess2FEN project (https://github.com/davidmallasen/LiveChess2FEN).
+Note: this program is a slight modification of the "dataset.py" program
+(in the "cpmodels" folder) of the LiveChess2FEN project
+(https://github.com/davidmallasen/LiveChess2FEN).
 """
+
+
 import os
 import shutil
 from random import shuffle
 
 
 PIECE_TYPES = ["r", "n", "b", "q", "k", "p", "P", "R", "N", "B", "Q", "K", "_"]
-
 PIECES_TO_CLASSNUM = {
     "_": 0,
     "b": 1,
@@ -30,8 +33,12 @@ PIECES_TO_CLASSNUM = {
 }
 
 
-def randomize_dataset(dataset_dir):
-    """Randomize the order of the images in the subdirectories of dataset_dir. Renames them to <number>.jpg.
+def randomize_dataset(dataset_dir: str):
+    """Randomize the dataset.
+
+    This function randomizes the order of the images in the
+    subdirectories of `dataset_dir`. It renames them using the
+    "<number>.jpg" format.
 
     :param dataset_dir: Directory of the dataset.
     """
@@ -51,13 +58,25 @@ def randomize_dataset(dataset_dir):
                 os.rename(path, newpath)
 
 
-def split_dataset(dataset_dir, train_dir, validation_dir, train_perc=0.8):
-    """Split dataset directory into train directory and validation directory given `train_perc`.
+def split_dataset(
+    dataset_dir: str,
+    train_dir: str,
+    validation_dir: str,
+    train_perc: float = 0.8,
+):
+    """Split data into training data and validation data.
+
+    This function splits the data from the `dataset_dir` directory into
+    training data (in the `train_dir` directory) and validation data (in
+    the `validation_dir` directory) given `train_perc`.
 
     :param dataset_dir: Directory of the whole dataset.
+
     :param train_dir: Train directory.
+
     :param validation_dir: Validation directory.
-    :param train_perc: Percentage of training images. Default 0.8.
+
+    :param train_perc: Percentage of training images.
     """
     if os.path.exists(train_dir):
         shutil.rmtree(train_dir)

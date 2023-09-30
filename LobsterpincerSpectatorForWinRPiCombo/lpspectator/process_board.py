@@ -1,12 +1,15 @@
 """This module is responsible for processing the digital board.
 
-The three functions in this module are invoked in the main program ("lobsterpincer_spectator.py").
+The three functions in this module are invoked in the main program
+("lobsterpincer_spectator.py").
 
-(This module is not intended to be used separately; you'll run into `ModuleNotFoundError` if you run this file directly.)
+(This module is not intended to be used/tested separately; you will run
+into `ModuleNotFoundError` if you run this file directly.)
 """
 
 
 import chess
+import chess.engine
 import chess.pgn
 import cv2
 
@@ -40,20 +43,25 @@ from lpspectator.configure_led_win import run_led_configuration_script_on_rpi
 def print_legal_moves(board: chess.Board):
     """Print the legal moves in the current position.
 
-    :param board: Current board position.
+    :param board: `Board` variable storing the current board position.
     """
     legal_move_array = [board.san(move) for move in board.legal_moves]
     if len(legal_move_array) > 2:
         legal_moves = (
-            f"{', '.join(map(str, legal_move_array[:-1]))}, and {legal_move_array[-1]}"
+            f"{', '.join(map(str, legal_move_array[:-1]))}, and "
+            f"{legal_move_array[-1]}"
         )
         print(f"\tThe legal moves are {legal_moves}\n")
     elif len(legal_move_array) == 2:
         print(
-            f"\tThe only legal moves in this position are {legal_move_array[0]} and {legal_move_array[1]}\n"
+            "\tThe only legal moves in this position are "
+            f"{legal_move_array[0]} and {legal_move_array[1]}\n"
         )
     else:  # There is only one legal move
-        print(f"\tThe only legal move in this position is {legal_move_array[0]}\n")
+        print(
+            "\tThe only legal move in this position is "
+            f"{legal_move_array[0]}\n"
+        )
 
 
 def process_updated_board(
@@ -64,15 +72,20 @@ def process_updated_board(
 ) -> bool:
     """Process the updated board.
 
-    This function prints out the updated FEN, visualizes the updated FEN, plays the sound effect for the detected move,
-    evaluates the position, determines whether the position is critical, turns on the LED lights, displays the detected
-    move on the LCD screen, and more (e.g., detects Harry, detects checkmate, and detects stalemate).
+    This function prints out the updated FEN, visualizes the updated
+    FEN, plays the sound effect for the detected move, evaluates the
+    position, determines whether the position is critical, turns on the
+    LED lights, displays the detected move on the LCD screen, and more
+    (e.g., detects Harry, detects checkmate, and detects stalemate).
 
-    :param board: Current (updated) board position.
+    :param board: `Board` variable storing the updated board position.
 
     :param detected_move: Last move that was detected to be played.
 
-    :param print_best_moves_in_terminal: Whether to print the best moves in the position in the terminal.
+    :param print_best_moves_in_terminal: Whether to print best moves.
+
+        This parameter specifies whether to print best moves in the
+        terminal after evaluating each position.
 
     :return: Whether it is the end of the game (checkmate/stalemate).
     """
@@ -95,14 +108,21 @@ def process_updated_board(
 
         if detect_lobsterpincer(board):
             fen_image = add_boom_lobsterpincer_mate_to_plot(fen_image)
-            cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+            cv2.imshow(
+                "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+            )
             cv2.waitKey(200)
 
-            print("\tBoooooom! Lobster Pincer mate!!! Press 'q' to exit the program\n")
+            print(
+                "\tBoooooom! Lobster Pincer mate!!! Press 'q' to exit the "
+                "program\n"
+            )
             play_lobsterpincer_audio()
         else:
             fen_image = add_boom_checkmate_to_plot(fen_image)
-            cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+            cv2.imshow(
+                "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+            )
             cv2.waitKey(200)
 
             print("\tBoooooom! Checkmate!!! Press 'q' to exit the program\n")
@@ -111,7 +131,9 @@ def process_updated_board(
     elif board.is_stalemate():
         fen_image = add_evaluation_bar_to_plot(4, fen_image)
         fen_image = add_god_stalemate_to_plot(fen_image)
-        cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+        cv2.imshow(
+            "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+        )
         cv2.waitKey(200)
 
         print("\tGod! Stalemate?!!! Press 'q' to exit the program")
@@ -122,7 +144,9 @@ def process_updated_board(
             engine, board, print_best_moves_in_terminal
         )
         # fen_image = add_engine_output_to_plot(engine_output, fen_image)
-        # cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+        # cv2.imshow(
+        #     "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+        # )
         # cv2.waitKey(200)
 
         num_of_lights = num_of_lights_to_turn_on(engine_output)
@@ -135,19 +159,26 @@ def process_updated_board(
         fen_image = add_last_move_critical_moment_and_whose_turn_to_plot(
             detected_move_san, False, turn, fen_image
         )
-        cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+        cv2.imshow(
+            "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+        )
         cv2.waitKey(200)
 
         if detect_harry(detected_move, engine_output, board):
             play_harry_audio()
         run_led_configuration_script_on_rpi(num_of_lights)
-        print(f"\t(critical_moment, num_of_lights) = ({False}, {num_of_lights})\n")
-    else:  # There's more than one legal move
+        print(
+            f"\t(critical_moment, num_of_lights) = ({False}, {num_of_lights})"
+            "\n"
+        )
+    else:  # There is more than one legal move
         engine_output = generate_engine_output(
             engine, board, print_best_moves_in_terminal
         )
         # fen_image = add_engine_output_to_plot(engine_output, fen_image)
-        # cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+        # cv2.imshow(
+        #     "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+        # )
         # cv2.waitKey(200)
 
         num_of_lights = num_of_lights_to_turn_on(engine_output)
@@ -161,7 +192,9 @@ def process_updated_board(
         fen_image = add_last_move_critical_moment_and_whose_turn_to_plot(
             detected_move_san, critical_moment, turn, fen_image
         )
-        cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+        cv2.imshow(
+            "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+        )
         cv2.waitKey(200)
 
         if critical_moment:
@@ -170,18 +203,21 @@ def process_updated_board(
             play_harry_audio()
         run_led_configuration_script_on_rpi(num_of_lights)
         print(
-            f"\t(critical_moment, num_of_lights) = ({critical_moment}, {num_of_lights})\n"
+            f"\t(critical_moment, num_of_lights) = ({critical_moment}, "
+            f"{num_of_lights})\n"
         )
 
     return game_over
 
 
-def save_current_pgn(game: chess.pgn.Game, full_fen_of_starting_position: str) -> str:
+def save_current_pgn(
+    game: chess.pgn.Game, full_fen_of_starting_position: str
+) -> str:
     """Save the moves played so far into a PGN-file ("saved_game.pgn").
 
-    :param game: Current game variable storing all the moves played so far.
+    :param game: `Game` variable storing all the moves played so far.
 
-    :param full_fen_of_starting_position: Full FEN of the starting position.
+    :param full_fen_of_starting_position: Full FEN of starting position.
 
     :return: Current PGN string.
     """

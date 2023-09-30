@@ -15,10 +15,10 @@ IMAGE_SOURCE = "http://10.0.0.45:8080/video"
 """Global variable specifying the image source."""
 
 
-def start_camera():
-    """Start the camera, create the windows, and initialize the slider values.
+def start_camera() -> cv2.VideoCapture:
+    """Start the camera, create the windows, and initialize the sliders.
 
-    :return: Variable `cap` that can be used to capture images with `cap.read()`.
+    :return: Variable `cap` that can be used to capture images.
     """
     cap = cv2.VideoCapture(IMAGE_SOURCE)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 3264)
@@ -50,26 +50,49 @@ def start_camera():
     return cap
 
 
-def draw_circles_and_obtain_coordinates(img: np.ndarray):
-    """Draw circles on the input image and return the coordinates of them.
+def draw_circles_and_obtain_coordinates(
+    img: np.ndarray,
+) -> tuple[int, int, int, int, int, int, int, int]:
+    """Draw circles on the input image and return their coordinates.
 
     :param img: Input BGR image.
 
-    :return: Eight integers representing the x- and y-coordinates of the circles.
+    :return: Eight integers representing the coordinates of the circles.
+
+        The first two integers are the x- and y-coordinates of the
+        top-left circle, the second two are those of the top-right
+        circle, the third are those of the bottom-left circle, and the
+        fourth are those of the bottom-right circle.
     """
     img_copy = img.copy()
 
     width = img_copy.shape[1]
     height = img_copy.shape[0]
 
-    x_TL = int(np.round(width * cv2.getTrackbarPos("x_TL", "Trackbar window") / 1000))
-    y_TL = int(np.round(height * cv2.getTrackbarPos("y_TL", "Trackbar window") / 1000))
-    x_TR = int(np.round(width * cv2.getTrackbarPos("x_TR", "Trackbar window") / 1000))
-    y_TR = int(np.round(height * cv2.getTrackbarPos("y_TR", "Trackbar window") / 1000))
-    x_BL = int(np.round(width * cv2.getTrackbarPos("x_BL", "Trackbar window") / 1000))
-    y_BL = int(np.round(height * cv2.getTrackbarPos("y_BL", "Trackbar window") / 1000))
-    x_BR = int(np.round(width * cv2.getTrackbarPos("x_BR", "Trackbar window") / 1000))
-    y_BR = int(np.round(height * cv2.getTrackbarPos("y_BR", "Trackbar window") / 1000))
+    x_TL = int(
+        np.round(width * cv2.getTrackbarPos("x_TL", "Trackbar window") / 1000)
+    )
+    y_TL = int(
+        np.round(height * cv2.getTrackbarPos("y_TL", "Trackbar window") / 1000)
+    )
+    x_TR = int(
+        np.round(width * cv2.getTrackbarPos("x_TR", "Trackbar window") / 1000)
+    )
+    y_TR = int(
+        np.round(height * cv2.getTrackbarPos("y_TR", "Trackbar window") / 1000)
+    )
+    x_BL = int(
+        np.round(width * cv2.getTrackbarPos("x_BL", "Trackbar window") / 1000)
+    )
+    y_BL = int(
+        np.round(height * cv2.getTrackbarPos("y_BL", "Trackbar window") / 1000)
+    )
+    x_BR = int(
+        np.round(width * cv2.getTrackbarPos("x_BR", "Trackbar window") / 1000)
+    )
+    y_BR = int(
+        np.round(height * cv2.getTrackbarPos("y_BR", "Trackbar window") / 1000)
+    )
     img_circles = cv2.circle(img_copy, (x_TL, y_TL), 20, (255, 0, 0), -1)
     img_circles = cv2.circle(img_copy, (x_TR, y_TR), 20, (255, 0, 0), -1)
     img_circles = cv2.circle(img_copy, (x_BL, y_BL), 20, (255, 0, 0), -1)
@@ -91,8 +114,11 @@ def perspective_transform(
     x_BR: int,
     y_BR: int,
     window_name="Perspective-transformed image",
-):
+) -> np.ndarray:
     """Perform a perspective transform on the input image.
+
+    This function performs a perspective transform on the input image,
+    plots the transformed image, and returns the transformed image.
 
     :param img: Input BGR image.
 
@@ -112,7 +138,7 @@ def perspective_transform(
 
     :param y_BR: Y-coordinate of the bottom-right corner.
 
-    :param window_name: Name of the window showing the perspective-transformed image.
+    :param window_name: Name of the window showing transformed image.
 
     :return: Perspective-transformed BGR image.
     """
@@ -125,20 +151,20 @@ def perspective_transform(
     )
     cv2.imshow(window_name, img_perspective_transformed_resized)
 
-    return img_perspective_transformed
+    return np.asarray(img_perspective_transformed)
 
 
 def visualize_slider_values_and_get_transformed_img(
     img: np.array, window_name="Perspective-transformed image"
-):
-    """Visualize the slider values and obtain the perspective-transformed image.
+) -> np.ndarray:
+    """Visualize slider values and obtain perspective-transformed image.
 
-    This function draws blue circles on the input image to visualize the slider values
-    and returns the perspective-transformed BGR image.
+    This function draws blue circles on the input image to visualize the
+    slider values and returns the perspective-transformed BGR image.
 
     :param img: Input BGR image.
 
-    :param window_name: Name of the window showing the perspective-transformed image.
+    :param window_name: Name of the window showing transformed image.
 
     :return: Perspective-transformed BGR image.
     """
@@ -186,12 +212,14 @@ def save_slider_values():
     np.save("slider_values.npy", slider_values)
 
 
-def convert_board_to_filename(board: chess.Board):
+def convert_board_to_filename(board: chess.Board) -> str:
     """Convert a board position to its corresponding filename.
 
     :param board: Board position.
 
-    :return board_str: Corresponding filename (including the ".png" extension).
+    :return board_str: Corresponding filename.
+
+        Note that the filename includes the ".png" extension.
     """
     board_str = board.board_fen()
     board_str = board_str.replace("8", "11111111")
@@ -226,7 +254,9 @@ if __name__ == "__main__":
     if not os.path.exists(
         "game_to_be_played.pgn"
     ):  # Display the perspective-transformed image
-        window_name = "LED lights and LCD screen" if len(sys.argv) != 2 else sys.argv[1]
+        window_name = (
+            "LED lights and LCD screen" if len(sys.argv) != 2 else sys.argv[1]
+        )
         count = 0
         _, previous_img = cap.read()
         last_time_of_img_capture = time.time()
@@ -242,12 +272,16 @@ if __name__ == "__main__":
                 last_time_of_img_capture = time.time()
 
             img_perspective_transformed = (
-                visualize_slider_values_and_get_transformed_img(img, window_name)
+                visualize_slider_values_and_get_transformed_img(
+                    img, window_name
+                )
             )
 
             pressed_key = cv2.waitKey(1)
             if pressed_key == ord("c"):
-                cv2.imwrite(f"Captured Images/{count}.png", img_perspective_transformed)
+                cv2.imwrite(
+                    f"Captured Images/{count}.png", img_perspective_transformed
+                )
                 count += 1
             if pressed_key == ord("q"):
                 save_slider_values()
@@ -268,14 +302,21 @@ if __name__ == "__main__":
         count = 0
         fen_image = generate_fen_image(board.board_fen())
         fen_image = add_next_move_to_plot(board.san(moves[count]), fen_image)
-        cv2.imshow("Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR))
+        cv2.imshow(
+            "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+        )
         cv2.waitKey(200)
 
         print(
-            "\nTune the slider values in the trackbar window until the perspective-transformed image contains precisely the 64 squares of the chessboard"
+            "\nTune the slider values in the trackbar window until the "
+            "perspective-transformed image contains precisely the 64 squares "
+            "of the chessboard"
         )
 
-        print("\nThen use the 'Current position' window to collect labeled image data")
+        print(
+            "\nThen use the 'Current position' window to collect labeled image"
+            " data"
+        )
 
         _, previous_img = cap.read()
         last_time_of_img_capture = time.time()
@@ -309,16 +350,21 @@ if __name__ == "__main__":
                         board.san(moves[count]), fen_image
                     )
                     cv2.imshow(
-                        "Current position", cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR)
+                        "Current position",
+                        cv2.cvtColor(fen_image, cv2.COLOR_RGB2BGR),
                     )
                     cv2.waitKey(1)
                 else:
                     save_slider_values()
                     cv2.destroyAllWindows()
                     print(
-                        "\nCongrats! You have completed the data collection for the provided game!"
+                        "\nCongrats! You have completed the data collection "
+                        "for the provided game!"
                     )
-                    print("The labeled image data are in the 'Captured Images' folder")
+                    print(
+                        "The labeled image data are in the 'Captured Images' "
+                        "folder"
+                    )
                     break
 
             if pressed_key == ord("q"):

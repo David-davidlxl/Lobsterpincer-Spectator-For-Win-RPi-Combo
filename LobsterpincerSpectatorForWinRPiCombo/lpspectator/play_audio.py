@@ -14,16 +14,20 @@ import chess
 
 
 def play_audio_with_pygame(audio_file: str):
-    """Play an arbitrary wav-audio in the "Audio" directory.
+    """Play an arbitrary piece of WAV-audio in the "Audio" directory.
 
-    :param audio_file: Filename of the audio file (including the '.wav' extension).
+    :param audio_file: Filename of the audio file.
+
+        Note that this filename should include the ".wav" extension.
     """
     try:
         fs, _ = wavfile.read(AUDIO_DIR + "/" + audio_file)
         pygame.mixer.init(frequency=fs)
         pygame.mixer.music.load(AUDIO_DIR + "/" + audio_file)
-    except FileNotFoundError:
-        try:  # This happens when we run this file from the "lpspectator" directory in the terminal
+    except (
+        FileNotFoundError
+    ):  # This happens when we run this file from the "lpspectator" directory
+        try:
             fs, _ = wavfile.read("../" + AUDIO_DIR + "/" + audio_file)
             pygame.mixer.init(frequency=fs)
             pygame.mixer.music.load("../" + AUDIO_DIR + "/" + audio_file)
@@ -31,7 +35,8 @@ def play_audio_with_pygame(audio_file: str):
             import sys
 
             print(
-                f'Please make sure "{audio_file}" exists in the "{AUDIO_DIR}" directory!'
+                f'Please make sure "{audio_file}" exists in the "{AUDIO_DIR}" '
+                "directory!"
             )
             sys.exit()
     pygame.mixer.music.play()
@@ -43,7 +48,9 @@ def play_audio_with_pygame(audio_file: str):
 def play_checkmate_audio():
     """Play the audio associated with checkmate."""
     play_audio_with_pygame("Boom!.wav")
-    play_audio_with_pygame("That_s_not_just_a_check__that_is_a_big_checkmate!.wav")
+    play_audio_with_pygame(
+        "That_s_not_just_a_check__that_is_a_big_checkmate!.wav"
+    )
 
 
 def play_critical_moment_audio():
@@ -102,12 +109,19 @@ def play_checkmate_sound_effect():
 
 
 def play_promotion_with_checkmate_sound_effect():
-    """Play the sound effect associated with promotion with checkmate."""
+    """Play the sound effect associated with promotion with mate."""
     play_audio_with_pygame("Promotion_with_checkmate_sound_effect.wav")
 
 
-def play_sound_effect_for_detected_move(board: chess.Board, detected_move: chess.Move):
-    """Play the sound effect for the detected move."""
+def play_sound_effect_for_detected_move(
+    board: chess.Board, detected_move: chess.Move
+):
+    """Play the sound effect for the detected move.
+
+    :param board: `Board` variable storing the current board position.
+
+    :param detected_move: Last move that the player just played.
+    """
     if board.is_checkmate():
         if detected_move.promotion is not None:
             play_promotion_with_checkmate_sound_effect()
