@@ -179,7 +179,7 @@ def initialize_lpspectator(
         engine,
         done_with_perspective_transform,
         ready_for_fen,
-        np.array(previous_img),
+        np.asarray(previous_img),
         last_time_of_img_capture,
         game_over,
     )
