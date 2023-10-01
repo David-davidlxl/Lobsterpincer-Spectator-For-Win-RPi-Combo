@@ -66,13 +66,14 @@ pip install scipy
 pip install pygame
 pip install Pillow
 pip install tensorflow
-pip install onnxruntime
+pip install onnxruntime==1.15.1
 pip install matplotlib
 pip install pyclipper
 pip install scikit-learn
 ```
 
-(The "requirements.txt" file shows a complete list of the installed Python packages (with their version numbers included) up to this point.)
+(Alternatively, you may use `pip install -r requirements.txt` to install
+all the relevant packages.)
 
 Next, in order to successfully import `tensorflow`, you also need to install a Microsoft Visual C++ Redistributable package from [here](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170). Since [Windows 11 only has the 64-bit version](https://www.intowindows.com/where-can-i-download-windows-11-32-bit-iso/), you can simply download and install [this](https://aka.ms/vs/17/release/vc_redist.x64.exe).
 
