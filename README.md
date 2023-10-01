@@ -40,7 +40,7 @@ The installation procedure (for "LobsterpincerSpectatorForWinRPiCombo") below ha
 
 ### Software Installation for Windows
 
-First, install Python 3.10 from Microsoft Store. It is important NOT to install Python 3.11 instead as it is currently incompatible with [`onnxruntime`](https://pypi.org/project/onnxruntime/).
+First, install Python 3.11 from Microsoft Store.
 
 Then make sure your `pip` is up to date by running the following command in Windows PowerShell:
 
