@@ -56,10 +56,10 @@ def predict_board_keras(
     board_corners=None,
     previous_fen: (str | None) = None,
     must_detect_move: bool = False,
-) -> tuple[str, int] | None:
-    """Predict FEN(s) from board image(s) using Keras for inference.
+) -> tuple[str, list[list[int]], str | None]:
+    """Predict FEN from board image using Keras for inference.
 
-    This function predicts FEN string(s) from chessboard images using
+    This function predicts FEN string from chessboard image using
     Keras as the inference engine.
 
     :param model_path: Path to the Keras model (ending with ".h5").
@@ -74,10 +74,10 @@ def predict_board_keras(
 
         Example: `"../predictions/board.jpg"`.
 
-    :param a1_pos: Position of the a1 square of the chessboard images.
+    :param a1_pos: Position of the a1 square of the chessboard image.
 
         This is the position of the a1 square (`"BL"`, `"BR"`, `"TL"`,
-        or `"TR"`) corresponding to the chessboard image(s).
+        or `"TR"`) corresponding to the chessboard image.
 
     :param board_corners: Length-4 list of coordinates of four corners.
 
@@ -111,7 +111,9 @@ def predict_board_keras(
         kingside/queenside castling rights, valid moves are broadly
         defined to be all "potentially legal" moves.
 
-    :return: Predicted FEN string of the current board position.
+    :return: Length-3 tuple formed by the predicted FEN string, the
+    coordinates of the corners of the chessboard in the input image, and
+    the detected move.
     """
     model = load_model(model_path)
 
@@ -143,10 +145,10 @@ def predict_board_onnx(
     board_corners=None,
     previous_fen: (str | None) = None,
     must_detect_move: bool = False,
-) -> tuple[str, int] | None:
-    """Predict FEN(s) from board image(s) using ONNX for inference.
+) -> tuple[str, list[list[int]], str | None]:
+    """Predict FEN from board image using ONNX for inference.
 
-    This function predicts FEN string(s) from chessboard image(s) using
+    This function predicts FEN string from chessboard image using
     ONNXRuntime as the inference engine.
 
     :param model_path: Path to the Keras model (ending with ".h5").
@@ -161,10 +163,10 @@ def predict_board_onnx(
 
         Example: `"../predictions/board.jpg"`.
 
-    :param a1_pos: Position of the a1 square of the chessboard images.
+    :param a1_pos: Position of the a1 square of the chessboard image.
 
         This is the position of the a1 square (`"BL"`, `"BR"`, `"TL"`,
-        or `"TR"`) corresponding to the chessboard image(s).
+        or `"TR"`) corresponding to the chessboard image.
 
     :param board_corners: Length-4 list of coordinates of four corners.
 
@@ -198,7 +200,9 @@ def predict_board_onnx(
         kingside/queenside castling rights, valid moves are broadly
         defined to be all "potentially legal" moves.
 
-    :return: Predicted FEN string of the current board position.
+    :return: Length-3 tuple formed by the predicted FEN string, the
+    coordinates of the corners of the chessboard in the input image, and
+    the detected move.
     """
     sess = onnxruntime.InferenceSession(model_path)
 
@@ -230,7 +234,7 @@ def predict_board(
     board_corners: (list[list[int]] | None) = None,
     previous_fen: (str | None) = None,
     must_detect_move: bool = False,
-) -> tuple[str, list[list[int]]]:
+) -> tuple[str, list[list[int]], str | None]:
     """Predict the FEN string from a chessboard image.
 
     :param board_path: Path to the chessboard image of interest.
@@ -286,8 +290,9 @@ def predict_board(
         kingside/queenside castling rights, valid moves are broadly
         defined to be all "potentially legal" moves.
 
-    :return: A pair formed by the predicted FEN string and the
-    coordinates of the corners of the chessboard in the input image.
+    :return: Length-3 tuple formed by the predicted FEN string, the
+    coordinates of the corners of the chessboard in the input image, and
+    the detected move.
     """
     board_corners = detect_input_board(board_path, board_corners)
     print(

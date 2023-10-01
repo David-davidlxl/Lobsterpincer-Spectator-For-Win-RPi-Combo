@@ -75,8 +75,8 @@ def process_updated_board(
     This function prints out the updated FEN, visualizes the updated
     FEN, plays the sound effect for the detected move, evaluates the
     position, determines whether the position is critical, turns on the
-    LED lights, displays the detected move on the LCD screen, and more
-    (e.g., detects Harry, detects checkmate, and detects stalemate).
+    LED lights, and more (e.g., detects Harry, detects checkmate, and
+    detects stalemate).
 
     :param board: `Board` variable storing the updated board position.
 
