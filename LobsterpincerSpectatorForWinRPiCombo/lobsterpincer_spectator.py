@@ -81,23 +81,6 @@ board, then this parameter should be set to
 perspective-transformed image has a size of 1200x1200).
 """
 
-IDENTIFY_EVERY_SINGLE_PIECE = False
-"""Parameter determining how to predict the FEN.
-
-This parameter controls whether we want the chess piece model to
-successfully identify every single chess piece on the board in order for
-us to use the predicted FEN.
-
-When it is set to `False`, only the moves detected by the model are used
-to update the board position. Essentially it controls whether we want to
-identify every single piece on the board or just identify the empty and
-filled squares along with their colors.
-
-Note that this parameter does not affect pawn promotion (the piece on
-the promotion square is always identified instead of being assumed to be
-the queen, unless the `AUTO_PROMOTION_TO_QUEEN` is set to `True`).
-"""
-
 AUTO_PROMOTION_TO_QUEEN = True
 """Parameter controlling whether to assume pawn-into-queen promotions.
 
@@ -107,11 +90,9 @@ into queens.
 When it is set to `False`, for each pawn promotion, the neural-network
 model is invoked to determine which piece the pawn was promoted into.
 
-If neural-network model is not accurate enough for piece identification
-(i.e., if the "Inconsistency between move and board..." message keeps
-showing up when `IDENTIFY_EVERY_SINGLE_PIECE` is set to `True`), and if
-the players agree beforehand to always promote a pawn into a queen, then
-`AUTO_PROMOTION_TO_QUEEN` should be set to `True`.
+If neural-network model is not accurate enough for piece identification,
+and if the players agree beforehand to always promote a pawn into a
+queen, then `AUTO_PROMOTION_TO_QUEEN` should be set to `True`.
 """
 
 MUST_DETECT_MOVE = True
@@ -254,32 +235,14 @@ if __name__ == "__main__":
                         '"saved_game.pgn"'
                     )
 
-                    if not IDENTIFY_EVERY_SINGLE_PIECE:
-                        fen = board.fen().split(" ")[0]
-                        game_over = process_updated_board(
-                            board,
-                            detected_move,
-                            engine,
-                            PRINT_BEST_MOVES_IN_TERMINAL,
-                        )
-                        previous_fen = fen
-                    else:
-                        if board.fen().split(" ")[0] != fen:
-                            print("\tPredicted FEN: ", fen, sep="")
-                            print(
-                                "\tInconsistency between move and board, so "
-                                "the FEN is not updated\n"
-                            )
-                            board.pop()
-                        else:
-                            fen = board.fen().split(" ")[0]
-                            game_over = process_updated_board(
-                                board,
-                                detected_move,
-                                engine,
-                                PRINT_BEST_MOVES_IN_TERMINAL,
-                            )
-                            previous_fen = fen
+                    fen = board.fen().split(" ")[0]
+                    game_over = process_updated_board(
+                        board,
+                        detected_move,
+                        engine,
+                        PRINT_BEST_MOVES_IN_TERMINAL,
+                    )
+                    previous_fen = fen
 
                     last_time_of_board_update = time.time()
 
