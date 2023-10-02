@@ -7,6 +7,7 @@ into `ModuleNotFoundError` if you run this file directly.)
 
 import chess.engine
 import cv2
+from time import sleep
 
 from lpspectator.capture_and_label_img import save_slider_values
 from lpspectator.evaluate_position import quit_engine
@@ -31,6 +32,7 @@ def quit_lpspectator(
     cv2.destroyAllWindows()
     quit_engine(engine)
     run_led_configuration_script_on_rpi(0, cleanup=True)
+    sleep(2)
     delete_all_powershell_scripts()
     print("Thank you for using the Lobsterpincer Spectator!")
     if print_pgn_in_terminal:
