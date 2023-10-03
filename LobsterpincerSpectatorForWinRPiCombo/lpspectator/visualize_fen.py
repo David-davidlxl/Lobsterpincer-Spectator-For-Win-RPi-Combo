@@ -291,7 +291,13 @@ def add_last_move_critical_moment_and_whose_turn_to_plot(
 
     :param last_move_san: Last move in standard algebraic notation.
 
-        Its value may be `None` if this information is not available.
+        Note that this may use either the "<move>" format (as in `"d4"`)
+        or the "<move number><whose turn> <move>" format
+        (as in `"1. d4"`, which says white played d4 on the first move).
+        Another example of the latter format is `"1... Nf6"`, which says
+        black played Nf6 on the first move.
+
+        It may also be `None` if this information is not available.
 
     :param critical: Whether board position represents critical moment.
 

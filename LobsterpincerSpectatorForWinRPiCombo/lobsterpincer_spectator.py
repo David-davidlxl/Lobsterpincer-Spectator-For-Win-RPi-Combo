@@ -31,6 +31,7 @@ from lpspectator.process_board import (
     print_legal_moves,
     process_updated_board,
     save_current_pgn,
+    get_move_str,
 )
 from lpspectator.quit_main_program import quit_lpspectator
 
@@ -220,7 +221,7 @@ if __name__ == "__main__":
                     last_time_of_board_update = time.time()
                 else:
                     detected_move = chess.Move.from_uci(detected_move)
-                    detected_move_str = board.san(detected_move)
+                    detected_move_str = get_move_str(detected_move, board)
                     run_lcd_configuration_script_on_rpi(detected_move_str)
                     board.push(detected_move)
                     if len(board.move_stack) == 1:

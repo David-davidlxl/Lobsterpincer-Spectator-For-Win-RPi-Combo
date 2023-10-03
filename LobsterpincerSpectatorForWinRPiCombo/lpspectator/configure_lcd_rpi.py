@@ -70,6 +70,12 @@ def display_last_move_on_lcd_screen(lcd: CharLCD, last_move_san: str):
     :param lcd: Variable for configuring and closing LCD connection.
 
     :param last_move_san: Last move in standard algebraic notation.
+
+        Note that this may use either the "<move>" format (as in `"d4"`)
+        or the "<move number><whose turn> <move>" format
+        (as in `"1. d4"`, which says white played d4 on the first move).
+        Another example of the latter format is `"1... Nf6"`, which says
+        black played Nf6 on the first move.
     """
     first_line = generate_full_line_string("Last move:")
     second_line = generate_full_line_string(last_move_san)
@@ -94,5 +100,10 @@ if __name__ == "__main__":
 
     if len(sys.argv) == 2:
         last_move_san = sys.argv[1]
+
+        display_last_move_on_lcd_screen(lcd, last_move_san)
+
+    elif len(sys.argv) == 3:
+        last_move_san = sys.argv[1] + " " + sys.argv[2]
 
         display_last_move_on_lcd_screen(lcd, last_move_san)

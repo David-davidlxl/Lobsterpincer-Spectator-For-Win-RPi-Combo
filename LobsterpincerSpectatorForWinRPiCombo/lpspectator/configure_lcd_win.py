@@ -30,6 +30,12 @@ def run_lcd_configuration_script_on_rpi(last_move_san: str):
 
     :param last_move_san: Last move in standard algebraic notation.
 
+        Note that this may use either the "<move>" format (as in `"d4"`)
+        or the "<move number><whose turn> <move>" format
+        (as in `"1. d4"`, which says white played d4 on the first move).
+        Another example of the latter format is `"1... Nf6"`, which says
+        black played Nf6 on the first move.
+
         If `None`, the LCD will simply be initialized and show nothing
         on the screen.
     """
@@ -97,4 +103,4 @@ if __name__ == "__main__":
     send_file_from_win_to_rpi("lpspectator/configure_lcd_rpi.py")
     sleep(5)
 
-    run_lcd_configuration_script_on_rpi("d4")
+    run_lcd_configuration_script_on_rpi("1. d4")

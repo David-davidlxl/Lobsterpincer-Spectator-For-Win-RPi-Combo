@@ -153,7 +153,7 @@ def process_updated_board(
         fen_image = add_evaluation_bar_to_plot(num_of_lights, fen_image)
 
         board.pop()
-        detected_move_san = board.san(detected_move)
+        detected_move_san = get_move_str(detected_move, board)
         board.push(detected_move)
         turn = board.turn
         fen_image = add_last_move_critical_moment_and_whose_turn_to_plot(
@@ -185,7 +185,7 @@ def process_updated_board(
         fen_image = add_evaluation_bar_to_plot(num_of_lights, fen_image)
 
         board.pop()
-        detected_move_san = board.san(detected_move)
+        detected_move_san = get_move_str(detected_move, board)
         board.push(detected_move)
         critical_moment = is_critical_moment(engine_output)
         turn = board.turn
@@ -233,3 +233,23 @@ def save_current_pgn(
     with open("saved_game.pgn", "w") as pgn_file:
         pgn_file.write(pgn_str)
     return pgn_str
+
+
+def get_move_str(detected_move: chess.Move, board: chess.Board) -> str:
+    """Get the string representation of the detected move.
+
+    This function combines information of what move number it was, whose
+    turn it was, and what move was played in the previous position into
+    a string.
+
+    :param detected_move: Last move that was detected to be played.
+
+    :param board: `Board` variable storing the previous board position.
+
+    :return: String representation of the detected move.
+    """
+    move_num_info = str(board.fullmove_number)
+    turn_info = ". " if board.turn == chess.WHITE else "... "
+    move_info = board.san(detected_move)
+
+    return move_num_info + turn_info + move_info
