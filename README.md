@@ -66,7 +66,7 @@ pip install scipy
 pip install pygame
 pip install Pillow
 pip install tensorflow
-pip install onnxruntime==1.15.1
+pip install onnxruntime
 pip install matplotlib
 pip install pyclipper
 pip install scikit-learn
