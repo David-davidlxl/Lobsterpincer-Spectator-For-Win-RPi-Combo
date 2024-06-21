@@ -192,7 +192,7 @@ There are a few things to note:
 
 3. After each move is registered (i.e., validated), a sound effect is played. There are sound effects for making "regular" moves, capturing, castling, promoting, checking, and checkmating. These are the same sound effects that you would hear in an online game on [chess.com](http://www.chess.com).
 
-4. Engine evaluation is accomplished with [Stockfish](https://stockfishchess.org/) 16 at depth 17, [which corresponds to an ELO rating of about 2695](https://chess.stackexchange.com/questions/8123/stockfish-elo-vs-search-depth/8125#8125).
+4. Engine evaluation is accomplished with [Stockfish](https://stockfishchess.org/) 16.1 at depth 17, [which corresponds to an ELO rating of about 2695](https://chess.stackexchange.com/questions/8123/stockfish-elo-vs-search-depth/8125#8125).
 
 5. A critical moment is defined as one when one of the two conditions is satisfied:
 

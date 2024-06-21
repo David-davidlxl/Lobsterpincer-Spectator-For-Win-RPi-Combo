@@ -1,5 +1,5 @@
 
-# Depth vs. TC
+## Depth vs. TC
 
 Newer and older results showing the average depth for games at fishtest conditions
 
@@ -11,7 +11,7 @@ Newer and older results showing the average depth for games at fishtest conditio
 
 ---
 
-# Elo cost of small Hash
+## Elo cost of small Hash
 
 We measure the influence of Hash on the playing strength, using games of SF15.1 at LTC (60+0.6s) and VLTC (240+2.4s) on the UHO book.
 Hash is varied between 1 and 64 MB and 256MB in powers of two, leading to as average hashfull between 100 and 950 per thousand.
@@ -49,7 +49,7 @@ The data suggests that keeping hashfull below 30% is best to maintain strength.
 
 ---
 
-# Elo cost of using MultiPV
+## Elo cost of using MultiPV
 
 MultiPV provides the N best moves, and their associated principal variation. This is a great tool to understand the options available in a given position. However, this information does not come for free, and the computational cost computing it reducing the quality of the bestmove found relative to a search that only needs to find a single line.
 
@@ -67,7 +67,7 @@ Book: UHO
 
 ---
 
-# Elo gain using MultiPV at fixed depth
+## Elo gain using MultiPV at fixed depth
 
 | MultiPV |  Elo | Elo-err |  Points | Played |
 |--------:|-----:|:-------:|--------:|-------:|
@@ -82,9 +82,9 @@ Depth: 18
 
 ---
 
-# Elo gain using syzygy
+## Elo gain using syzygy
 
-## TB6 testing for various versions of SF
+### TB6 testing for various versions of SF
 
 Consistent measurement of Elo gain (syzygy 6men vs none) for various SF versions:
 
@@ -110,7 +110,7 @@ TB are in RAM (so fast access), TC is 10+0.1s (STC), book UHO_XXL_+0.90_+1.19.ep
 
 </details>
 
-## Testing depending on number of pieces and TC
+### Testing depending on number of pieces and TC
 
 Tested at 10+0.1, with all syzygy WDL files on tmpfs (i.e. RAM), testing using none(0), 4, 5, and 6 man TB in a round-robin tournament (SF10dev).
 
@@ -128,13 +128,13 @@ Elo difference: 10.55 +/- 2.25
 
 ---
 
-# Threading efficiency and Elo gain.
+## Threading efficiency and Elo gain.
 
-## Efficiency
+### Efficiency
 
 Here we look at the threading efficiency of the lazySMP parallelization scheme. To focus on the algorithm we play games with a given budget of nodes rather than at a given TC. In principle, lazySMP has excellent scaling of the nps with cores, but practical measurement is influenced by e.g. frequency adjustments, SMT/hyperthreading, and sometimes hardware limitation.
 
-### Equivalent nodestime
+#### Equivalent nodestime
 
 In these tests, matches are played at a fixed nodes budget (using the nodestime feature of SF), and equivalence in strength between the serial player and the threaded player (for x threads in the graph below) is found by adjusting the number of nodes given to the threaded player (e.g. with 16 threads, the threaded player might need 200% of the nodes of the serial player to match the strength of the serial player). This 'equivalent nodestime' is determined for various number of threads and various nodes budgets (60+0.6Mnodes/game is somewhat similar to our usual LTC at 60+0.6s/game, if we assume 1Mnps).
 
@@ -144,7 +144,7 @@ The interesting observation one can make immediately is that this 'equivalent no
 
 The curves are sufficiently smooth to be fitted with a model having 1 parameter that is different between the curves (`f(x)`, parameter `a`, see caption). A smaller value of `a` means a higher efficiency.
 
-### A fit for the `a` parameter, and extrapolation to long TCs.
+#### A fit for the `a` parameter, and extrapolation to long TCs.
 
 The above parameter `a` from the model, can be fit as a function of nodes budget, this allows for extrapolating the parameter, and to arrive at and estimate for the 'equivalent nodestime' at large TC / nodes budgets:
 
@@ -158,7 +158,7 @@ The fit is again fairly good. Taking a leap of faith, these measurements at up t
 
 These extrapolations suggest that even at thread counts of >300, at TCEC TCs efficiency could be 80% or higher, provided the nps scales with the number of threads.
 
-## Elo results (older)
+### Elo results (older)
 
 ### LTC
 Playing 8 threads vs 1 thread at LTC (60+0.6, 8moves_v3.pgn):
@@ -177,7 +177,7 @@ Elo difference: 217.9 +/- 15.8, LOS: 100.0 %, DrawRatio: 43.4 %
 
 Which is roughly 82% efficiency (178/218).
 
-### STC
+#### STC
 Playing 8 threads vs 1 thread at STC (10+0.1):
 
 ```
@@ -196,7 +196,7 @@ So, 1 -> 8 threads has about 83% scaling efficiency (327 / (327 + 66)) using thi
 
 ---
 
-# Elo from speedups
+## Elo from speedups
 
 <img src="https://user-images.githubusercontent.com/4202567/77511220-ea07e580-6e70-11ea-9c25-1c3bfeca7b31.png" width="800">
 
@@ -227,7 +227,7 @@ _Note: Numbers will depend on the precise hardware. The model was verified quite
 
 ---
 
-# Distribution of lengths of games at LTC (60+0.6) on fishtest
+## Distribution of lengths of games at LTC (60+0.6) on fishtest
 
 In a collection of a few million games, the longest was [902 plies](https://github.com/protonspring/Stockfish/files/4532568/long.pgn.txt).
 
@@ -235,17 +235,17 @@ In a collection of a few million games, the longest was [902 plies](https://gith
 
 ---
 
-# Win-Loss-Draw statistics of LTC games on fishtest
+## Win-Draw-Loss statistics of LTC games on fishtest
 
-The following graph give information on the Win-Loss-Draw (WLD) statistics, relating them to score and move number. It answers the question 'What fraction of positions that have a given score + (move number) in fishtest LTC, have a Win a Loss or a Draw ?'.
+The following graph gives information on the Win-Draw-Loss (WDL) statistics, relating them to score and move number. It answers the question 'What fraction of positions that have a given score + (move number) in fishtest LTC, have a Win or a Draw or a Loss ?'.
 
-[<img src="https://raw.githubusercontent.com/vondele/WLD_model/master/WLD_model_summary.png" width="800">](https://raw.githubusercontent.com/vondele/WLD_model/master/WLD_model_summary.png)
+[<img src="https://raw.githubusercontent.com/official-stockfish/WDL_model/master/WDL_model_summary.png" width="800">](https://raw.githubusercontent.com/official-stockfish/WDL_model/master/WDL_model_summary.png)
 
-This model is used when Stockfish provides WLD statistics during analysis with the `UCI_ShowWDL` option set to True.
+This model is used when Stockfish provides WDL statistics during analysis with the `UCI_ShowWDL` option set to True.
 
 ---
 
-# Elo gain with time odds
+## Elo gain with time odds
 
 See also: https://github.com/official-stockfish/Stockfish/discussions/3402
 
@@ -255,7 +255,7 @@ See also: https://github.com/official-stockfish/Stockfish/discussions/3402
 
 ---
 
-# One year of NNUE speed improvements
+## One year of NNUE speed improvements
 
 Presents nodes per second (nps) measurements for all SF version between the first NNUE commit (SF_NNUE, Aug 2th 2020) and end of July 2021 on a AMD Ryzen 9 3950X compiled with `make -j ARCH=x86-64-avx2 profile-build`. The last nps reported for a depth 22 search from startpos using NNUE (best over about 20 measurements) is shown in the graph. For reference, the last classical evaluation (SF_classical, July 30 2020) has 2.30 Mnps.
 
@@ -263,7 +263,28 @@ Presents nodes per second (nps) measurements for all SF version between the firs
 
 ---
 
-# Round-robin tournament with SF releases, impact of book and time odds
+## The impact of efficient (incremental) updates (NNUE)
+
+As measured with SF17dev (dev-20230824-4c4cb185), disabling the update_accumulator_incremental() functionality.
+
+Speedup:
+```
+Result of  10 runs
+==================
+base (./stockfish.master       ) =    1287575  +/- 8703
+test (./stockfish.patch        ) =     696064  +/- 3451
+diff                             =    -591511  +/- 7318
+
+speedup        = -0.4594
+P(speedup > 0) =  0.0000
+
+CPU: 16 x AMD Ryzen 9 3950X 16-Core Processor
+```
+
+Which corresponds to [-67.55 ± 9.5 Elo on fishtest](https://tests.stockfishchess.org/tests/view/64e8f64085e3e95030fd80bf) with the UHO book at LTC.
+
+---
+## Round-robin tournament with SF releases, impact of book and time odds
 
 Measured playing games of 5+0.05s, with SF 7 - 15, using the three different books. Each version plays once with the base TC, and once with 20% time odds.
 
@@ -272,7 +293,8 @@ Measured playing games of 5+0.05s, with SF 7 - 15, using the three different boo
 <details>
   <summary><code>Raw data for the above graph</code></summary><br>
 
-## UHO
+
+### UHO
 
 |   SF |   Elo | 20%-odds | Elo-err | Odds-err |
 |-----:|------:|---------:|--------:|---------:|
@@ -286,7 +308,7 @@ Measured playing games of 5+0.05s, with SF 7 - 15, using the three different boo
 | SF14 | 553.4 |     27.8 |     4.5 |      6.3 |
 | SF15 | 627.6 |     24.5 |     4.6 |      6.7 |
 
-## noob
+### noob
 
 |   SF |   Elo | 20%-odds | Elo-err | Odds-err |
 |-----:|------:|---------:|--------:|---------:|
@@ -300,7 +322,7 @@ Measured playing games of 5+0.05s, with SF 7 - 15, using the three different boo
 | SF14 | 611.3 |     29.1 |     4.5 |      6.5 |
 | SF15 | 660.9 |     24.8 |     4.3 |      6.2 |
 
-## 8moves
+### 8moves
 
 |   SF |   Elo | 20%-odds | Elo-err | Odds-err |
 |-----:|------:|---------:|--------:|---------:|
@@ -318,7 +340,7 @@ Measured playing games of 5+0.05s, with SF 7 - 15, using the three different boo
 
 ---
 
-# Branching factor of Stockfish
+## Branching factor of Stockfish
 
 The branching factor (bf) of Stockfish is defined here such that `nodes = bf ** rootDepth` or equivalently `bf = exp(log(nodes)/rootDepth)`. Here, this has been measured with a single search from the starting position.
 
@@ -328,7 +350,7 @@ The trend is the deeper one searches the lower the branching factor, and newer v
 
 ---
 
-# Contempt measurements
+## Contempt measurements
 
 Older SF (around SF10) had contempt that worked rather well. This data shows the dependence of Elo difference between SFdev of October 2018 and older versions of Stockfish depending on contempt value (The SFdev used is approx. 40Elo above SF9).
 Upper and lower bounds represent value with maximum error.
@@ -343,7 +365,7 @@ Full data with values https://docs.google.com/spreadsheets/d/1R_eopD8_ujlBbt_Q0y
 
 ---
 
-# Elo change with respect to TC
+## Elo change with respect to TC
 
 Here is the result of some scaling tests with the 2moves book. 40000 games each (STC=10+0.1, LTC=60+0.6)
 
@@ -358,7 +380,7 @@ See https://github.com/official-stockfish/Stockfish/issues/1859#issuecomment-449
 
 ---
 
-# TC dependence of certain terms in search
+## TC dependence of certain terms in search
 
 Discussed here https://github.com/official-stockfish/Stockfish/pull/2401#issuecomment-552768526
 
@@ -366,7 +388,7 @@ Discussed here https://github.com/official-stockfish/Stockfish/pull/2401#issueco
 
 ---
 
-# Elo contributions from various evaluation terms
+## Elo contributions from various evaluation terms
 
 See spreadsheet at: https://github.com/official-stockfish/Stockfish/files/3828738/Stockfish.Feature.s.Estimated.Elo.worth.1.xlsx
 

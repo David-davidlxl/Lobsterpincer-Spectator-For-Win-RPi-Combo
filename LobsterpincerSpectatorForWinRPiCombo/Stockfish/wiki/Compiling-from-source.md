@@ -1,8 +1,8 @@
-# General
+## General
 
 `make target ARCH=arch [COMP=compiler] [COMPCXX=cxx]`
 
-## Targets
+### Targets
 
 ```
 help                    > Display architecture details
@@ -14,9 +14,10 @@ install                 > Install executable
 clean                   > Clean up
 ```
 
-## Archs
+### Archs
 
 ```
+native                  > select the best architecture for the host processor (default)
 x86-64-vnni512          > x86 64-bit with vnni 512bit support
 x86-64-vnni256          > x86 64-bit with vnni 512bit support, limit operands to 256bit wide
 x86-64-avx512           > x86 64-bit with avx512 support
@@ -24,7 +25,7 @@ x86-64-avxvnni          > x86 64-bit with vnni 256bit support
 x86-64-bmi2             > x86 64-bit with bmi2 support
 x86-64-avx2             > x86 64-bit with avx2 support
 x86-64-sse41-popcnt     > x86 64-bit with sse41 and popcnt support
-x86-64-modern           > common modern CPU, currently x86-64-sse41-popcnt
+x86-64-modern           > deprecated, currently x86-64-sse41-popcnt
 x86-64-ssse3            > x86 64-bit with ssse3 support
 x86-64-sse3-popcnt      > x86 64-bit with sse3 and popcnt support
 x86-64                  > x86 64-bit generic (with sse2 support)
@@ -44,23 +45,23 @@ general-32              > unspecified 32-bit
 riscv64                 > RISC-V 64-bit
 ```
 
-## Compilers
+### Compilers
 
 ```
-gcc                     > Gnu compiler (default)
-mingw                   > Gnu compiler with MinGW under Windows
+gcc                     > GNU compiler (default)
+mingw                   > GNU compiler with MinGW under Windows
 clang                   > LLVM Clang compiler
 icc                     > Intel compiler
 ndk                     > Google NDK to cross-compile for Android
 ```
 
-## Simple examples
+### Simple examples
 
 If you don't know what to do, you likely want to run:
 
 Fast compile for most common modern CPUs
 ```bash
-make -j build ARCH=x86-64-modern
+make -j build
 ```
 Slow compile for 64-bit systems
 ```bash
@@ -71,7 +72,7 @@ Slow compile for 32-bit systems
 make -j build ARCH=x86-32
 ```
 
-## Advanced examples
+### Advanced examples
 
 For experienced users looking for performance:
 
@@ -89,7 +90,7 @@ _See also: [How to lower compilation time](#lower-compilation-time) and [How to 
 
 ---
 
-# Linux
+## Linux
 
 On Unix-like systems, it should be easy to compile Stockfish directly from the source code with the included Makefile in the folder `src`.
 
@@ -98,14 +99,14 @@ In general it is recommended to run `make help` to see a list of make targets wi
 ```bash
 cd src
 make help
-make -j build ARCH=x86-64-modern
+make -j profile-build ARCH=x86-64-avx2
 ```
 
 ---
 
-# Windows
+## Windows
 
-## About MSYS2 & MinGW-w64
+### About MSYS2 & MinGW-w64
 
 MSYS2 is a software distribution and building platform for Windows. It provides a Unix-like environment, a command line interface, and a software repository, making it easy to install software on Windows or build software on Windows with either the GCC compiler or the Clang/LLVM compiler and using the Microsoft Visual C++ Runtime (mvscrt, shipped with all Windows versions) or the newer Microsoft Universal C Runtime (ucrt, shipped by default starting with Windows 10).
 
@@ -113,16 +114,16 @@ MSYS2 consists of several subsystems, `msys2`, `mingw32`, and `mingw64`:
 * The `mingw32` and `mingw64` subsystems are native Windows applications that use either the mvscrt or the ucrt.
 * The `msys2` subsystem provides an emulated mostly-POSIX-compliant environment based on Cygwin.
 
-Each subsystem has an associated "terminal/shell", which is essentially a set of environment variables that allow the subsystems to co-operate properly:
+Each subsystem has an associated "terminal/shell", which is essentially a set of environment variables that allows the subsystems to co-operate properly:
 * `MSYS2 MinGW x64`, to build Windows-native 64-bit applications with GCC compiler using mvscrt.
 * `MSYS2 MinGW x86`, to build Windows-native 32-bit applications using GCC compiler using mvscrt.
 * `MSYS2 MSYS`, to build POSIX applications using the Cygwin compatibility layer.
 * `MSYS2 MinGW UCRT x64`, to build Windows-native 64-bit applications with GCC compiler using ucrt.
-* `MSYS2 MinGW Clang x86`, to build Windows-native 64-bit applications with Clang/LLVM compiler using ucrt.
+* `MSYS2 MinGW Clang x64`, to build Windows-native 64-bit applications with Clang/LLVM compiler using ucrt.
 
 Refer to the [MSYS2 homepage](https://www.msys2.org/) for more detailed information on the MSYS2 subsystems and terminals/shells.
 
-## Installing MSYS2
+### Installing MSYS2
 
 ### Install MSYS2 with Chocolatey
 [Chocolatey](https://chocolatey.org/) is a command line package manager for Windows, always run Chocolatey commands in a powershell/cmd with administrator rights (right click on `Start` menu, select `Windows Powershell (Admin)` or `Command Prompt (Admin)`):
@@ -157,7 +158,7 @@ With MSYS2 installed to `C:\tools\msys64` your home directory will be `C:\tools\
 
 _Note: You can also use `ls` to list the files and folders in a directory, similar to how you would use `dir` in Windows._
 
-## GCC
+### GCC
 This works with all the Windows versions.
 
 1. Using your favorite text editor, copy and paste the following bash script, calling it `makefish.sh`:
@@ -171,33 +172,44 @@ This works with all the Windows versions.
 # install packages if not already installed
 pacman -S --noconfirm --needed unzip make mingw-w64-x86_64-gcc
 
+branch='master'
+github_user='official-stockfish'
+
 # download the Stockfish source code
-wget -O master.zip https://github.com/official-stockfish/Stockfish/archive/master.zip
-unzip -o master.zip
-cd Stockfish-master/src
+wget -O ${branch}.zip https://github.com/${github_user}/Stockfish/archive/refs/heads/${branch}.zip
+unzip -o ${branch}.zip
+cd Stockfish-${branch}/src
 file_nnue=$(grep 'define.*EvalFileDefaultName' evaluate.h | grep -Ewo 'nn-[a-z0-9]{12}.nnue')
 ls *.nnue | grep -v ${file_nnue} | xargs -d '\n' -r rm --
 
-# find the CPU architecture
-gcc_enabled=$(g++ -Q -march=native --help=target | grep "\[enabled\]")
-gcc_arch=$(g++ -Q -march=native --help=target | grep "march")
+# check all given flags
+check_flags () {
+    for flag; do
+        printf '%s\n' "$flags" | grep -q -w "$flag" || return 1
+    done
+}
 
-if [[ "${gcc_enabled}" =~ "-mavx512vnni " && "${gcc_enabled}" =~ "-mavx512dq " && "${gcc_enabled}" =~ "-mavx512f " && "${gcc_enabled}" =~ "-mavx512bw " && "${gcc_enabled}" =~ "-mavx512vl " ]] ; then
-  arch_cpu="x86-64-vnni256"
-elif [[ "${gcc_enabled}" =~ "-mavx512f " && "${gcc_enabled}" =~ "-mavx512bw " ]] ; then
-  arch_cpu="x86-64-avx512"
-elif [[ "${gcc_enabled}" =~ "-mbmi2 " && ! "${gcc_arch}" =~ "znver1" && ! "${gcc_arch}" =~ "znver2" ]] ; then
-  arch_cpu="x86-64-bmi2"
-elif [[ "${gcc_enabled}" =~ "-mavx2 " ]] ; then
-  arch_cpu="x86-64-avx2"
-elif [[ "${gcc_enabled}" =~ "-mpopcnt " && "${gcc_enabled}" =~ "-msse4.1 " ]] ; then
-  arch_cpu="x86-64-modern"
-elif [[ "${gcc_enabled}" =~ "-mssse3 " ]] ; then
-  arch_cpu="x86-64-ssse3"
-elif [[ "${gcc_enabled}" =~ "-mpopcnt " && "${gcc_enabled}" =~ "-msse3 " ]] ; then
-  arch_cpu="x86-64-sse3-popcnt"
+# find the CPU architecture
+output=$(g++ -Q -march=native --help=target)
+flags=$(printf '%s\n' "$output" | awk '/\[enabled\]/ {print substr($1, 3)}' | tr '\n' ' ')
+arch=$(printf '%s\n' "$output" | awk '/march/ {print $NF; exit}' | tr -d '[:space:]')
+
+if check_flags 'avx512vnni' 'avx512dq' 'avx512f' 'avx512bw' 'avx512vl'; then
+  arch_cpu='x86-64-vnni256'
+elif check_flags 'avx512f' 'avx512bw'; then
+  arch_cpu='x86-64-avx512'
+elif check_flags 'bmi2' && [ $arch != 'znver1' ] && [ $arch != 'znver2' ]; then
+  arch_cpu='x86-64-bmi2'
+elif check_flags 'avx2'; then
+  arch_cpu='x86-64-avx2'
+elif check_flags 'sse4.1' 'popcnt'; then
+  arch_cpu='x86-64-sse41-popcnt'
+elif check_flags 'ssse3'; then
+  arch_cpu='x86-64-ssse3'
+elif check_flags 'sse3' 'popcnt'; then
+  arch_cpu='x86-64-sse3-popcnt'
 else
-  arch_cpu="x86-64"
+  arch_cpu='x86-64'
 fi
 
 # build the fastest Stockfish executable
@@ -218,10 +230,13 @@ cd
 # install packages if not already installed
 pacman -S --noconfirm --needed unzip make mingw-w64-i686-gcc
 
+branch='master'
+github_user='official-stockfish'
+
 # download the Stockfish source code
-wget -O master.zip https://github.com/official-stockfish/Stockfish/archive/master.zip
-unzip -o master.zip
-cd Stockfish-master/src
+wget -O ${branch}.zip https://github.com/${github_user}/Stockfish/archive/refs/heads/${branch}.zip
+unzip -o ${branch}.zip
+cd Stockfish-${branch}/src
 file_nnue=$(grep 'define.*EvalFileDefaultName' evaluate.h | grep -Ewo 'nn-[a-z0-9]{12}.nnue')
 ls *.nnue | grep -v ${file_nnue} | xargs -d '\n' -r rm --
 
@@ -250,7 +265,7 @@ cd
 3. Navigate to wherever you saved the script (e.g. type and execute `cd '/d/Program Files/Stockfish'` to navigate to `D:\Program Files\Stockfish`).
 4. Run the script by typing and executing `bash makefish.sh`.
 
-## Clang/LLVM
+### Clang/LLVM
 With Windows version older than Windows 10 you could need to install the Microsoft Windows Universal C Runtime.
 
 1. Using your favorite text editor, copy and paste the following bash script, calling it `makefish.sh`:
@@ -264,15 +279,45 @@ With Windows version older than Windows 10 you could need to install the Microso
 # install packages if not already installed
 pacman -S --noconfirm --needed unzip make mingw-w64-clang-x86_64-clang
 
+branch='master'
+github_user='official-stockfish'
+
 # download the Stockfish source code
-wget -O master.zip https://github.com/official-stockfish/Stockfish/archive/master.zip
-unzip -o master.zip
-cd Stockfish-master/src
+wget -O ${branch}.zip https://github.com/${github_user}/Stockfish/archive/refs/heads/${branch}.zip
+unzip -o ${branch}.zip
+cd Stockfish-${branch}/src
 file_nnue=$(grep 'define.*EvalFileDefaultName' evaluate.h | grep -Ewo 'nn-[a-z0-9]{12}.nnue')
 ls *.nnue | grep -v ${file_nnue} | xargs -d '\n' -r rm --
 
-# write here your CPU architecture
-arch_cpu="x86-64-modern"
+# check all given flags
+check_flags () {
+    for flag; do
+        printf '%s\n' "$flags" | grep -q -w "$flag" || return 1
+    done
+}
+
+# find the CPU architecture
+output=$(clang++ -E - -march=native -### 2>&1)
+flags=$(printf '%s\n' "$output" | grep -o '"-target-feature" "[^"]*"' | cut -d '"' -f 4 | grep '^\+' | cut -c 2- | tr '\n' ' ')
+arch=$(printf '%s\n' "$output" | grep -o '"-target-cpu" "[^"]*"' | cut -d '"' -f 4)
+
+if check_flags 'avx512vnni' 'avx512dq' 'avx512f' 'avx512bw' 'avx512vl'; then
+  arch_cpu='x86-64-vnni256'
+elif check_flags 'avx512f' 'avx512bw'; then
+  arch_cpu='x86-64-avx512'
+elif check_flags 'bmi2' && [ $arch != 'znver1' ] && [ $arch != 'znver2' ]; then
+  arch_cpu='x86-64-bmi2'
+elif check_flags 'avx2'; then
+  arch_cpu='x86-64-avx2'
+elif check_flags 'sse4.1' 'popcnt'; then
+  arch_cpu='x86-64-sse41-popcnt'
+elif check_flags 'ssse3'; then
+  arch_cpu='x86-64-ssse3'
+elif check_flags 'sse3' 'popcnt'; then
+  arch_cpu='x86-64-sse3-popcnt'
+else
+  arch_cpu='x86-64'
+fi
 
 # build the fastest Stockfish executable
 make -j profile-build ARCH=${arch_cpu} COMP=clang
@@ -287,9 +332,9 @@ cd
 3. Navigate to wherever you saved the script (e.g. type and execute `cd '/d/Program Files/Stockfish'` to navigate to `D:\Program Files\Stockfish`).
 4. Run the script by typing and executing `bash makefish.sh`.
 
-## Microsoft Visual Studio
+### Microsoft Visual Studio
 
-_Note: Building Stockfish with Visual Studio is **not officialy supported**._
+_Note: Building Stockfish with Visual Studio is **not officially supported**._
 
 It is required to explicitly set the stack reserve to avoid crashes. See point 5. below.
 
@@ -317,13 +362,13 @@ If you want to use MSVC to get a "optimized" build, you can change these setting
 
 11. Enjoy, local tests show comparable speed to GCC builds.
 
-## Troubleshooting
+### Troubleshooting
 
 If this tutorial will not work on your pc, you may try to change the `Windows Security` settings in via `Windows Security` >> `App & Browser Control` >> `Exploit Protection Settings`:
  1. Try to turn off _"Force randomization for images (Mandatory ASLR)"_, if this not solve the problem then,
  2. Try to turn off also _"Randomize memory allocations (Bottom-up ASLR)"_ .
 
-## Using other MinGW-w64 with MSYS2
+### Using other MinGW-w64 with MSYS2
 
 To use with MSYS2 a MinGW-w64 built by other projects, simply follow these instructions (Windows 64 bit):
 1. Download another version of MinGW-w64, e.g. [MinGW-w64 (64-bit) GCC 8.1.0](https://www.msys2.org/), extract the *mingw64* folder renaming it to *mingw64-810*, copy the folder into *C:\msys64*, check to have the directory *C:\msys64\mingw64-810\bin*
@@ -343,10 +388,13 @@ else
   exit 1
 fi
 
+branch='master'
+github_user='official-stockfish'
+
 # download the Stockfish source code
-wget -O master.zip https://github.com/official-stockfish/Stockfish/archive/master.zip
-unzip master.zip
-cd Stockfish-master/src
+wget -O ${branch}.zip https://github.com/${github_user}/Stockfish/archive/refs/heads/${branch}.zip
+unzip ${branch}.zip
+cd Stockfish-${branch}/src
 
 # find the CPU architecture
 # CPU without popcnt and bmi2 instructions (e.g. older than Intel Sandy Bridge)
@@ -361,7 +409,7 @@ if [ "$(g++ -Q -march=native --help=target | grep mbmi2 | grep enabled)" ] ; the
   fi
 # CPU with popcnt instruction (e.g. Intel Sandy Bridge)
 elif [ "$(g++ -Q -march=native --help=target | grep mpopcnt | grep enabled)" ] ; then
-  arch_cpu=x86-64-modern
+  arch_cpu=x86-64-sse41-popcnt
 fi
 
 # build the Stockfish executable
@@ -386,7 +434,7 @@ fi
 
 ---
 
-# macOS
+## macOS
 
 On macOS 10.14 or higher, it is possible to use the Clang compiler provided by Apple
 to compile Stockfish out of the box, and this is the method used by default
@@ -455,7 +503,7 @@ See [this pull request](https://github.com/official-stockfish/Stockfish/pull/304
 
 ---
 
-# For Android
+## For Android
 
 You can build Stockfish for your ARM CPU based mobile Android device,
 using the Stockfish supplied Makefile.
@@ -687,9 +735,9 @@ Enjoy!
 
 ---
 
-# Cross compilation
+## Cross compilation
 
-## For Windows in Ubuntu
+### For Windows in Ubuntu
 
 The script works with Ubuntu 18.04, Ubuntu 21.10 and Ubuntu 22.04, other versions could still have a packaging bug.
 
@@ -733,9 +781,9 @@ _build_sf_pgo
   
 # build the binary for CPU with popcnt instruction (e.g. Intel Sandy Bridge)
 if [ "$(x86_64-w64-mingw32-c++-posix -Q -march=native --help=target | grep mpopcnt | grep enabled)" ] ; then
-  _build_sf_pgo -modern
+  _build_sf_pgo -sse41-popcnt
 else
-  _build_sf -modern
+  _build_sf -sse41-popcnt
 fi
   
 # build the binary for CPU with bmi2 instruction (e.g. Intel Haswell or newer)
@@ -747,7 +795,7 @@ fi
 ```
 </details>
 
-## For all platforms using Zig
+### For all platforms using Zig
 
 [Zig](https://ziglang.org/) is a programming language in early development stage that is binary compatible with C.
 The Zig toolchain, based on LLVM, ships the source code of all the required libraries to easily cross compile Zig/C/C++ code for several CPU Architecture and OS combinations. All the work required is to set as target the proper supported [triple \<arch-os-abi\>](https://github.com/ziglang/zig-bootstrap#supported-triples) (eg `x86_64-windows-gnu`, `aarch64-linux-musl`).
@@ -816,22 +864,22 @@ mv stockfish.exe stockfish_armv8
 
 ---
 
-# Lower compilation time
+## Lower compilation time
 
 It is possible to lower the compile time on cpu multi core using make with the flag *-j \<n_jobs\>*, where \<n_jobs\> is the number of jobs (commands) to run simultaneously. The flag *-j* enables one job for each logical CPU core. 
 
 ```bash
-make -j <n_jobs> profile-build ARCH=x86-64-modern COMP=mingw
+make -j <n_jobs> profile-build ARCH=x86-64-avx2 COMP=mingw
 ```
 
 ---
 
-# Optimize for your CPU
+## Optimize for your CPU
 
 To get the max speedup for your CPU (1.5% on Ivy Bridge) simply prepend the shell variable `CXXFLAGS='-march=native'` to the `make` command. At example, for a CPU Sandy/Ivy Bridge use this command:
 
 ```bash
-CXXFLAGS='-march=native' make -j profile-build ARCH=x86-64-modern COMP=gcc
+CXXFLAGS='-march=native' make -j profile-build ARCH=x86-64-avx2 COMP=gcc
 ```
 
 To view the compiler flags for your CPU: 
