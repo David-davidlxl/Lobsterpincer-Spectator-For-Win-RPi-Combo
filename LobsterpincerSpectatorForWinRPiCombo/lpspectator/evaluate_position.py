@@ -1,6 +1,5 @@
 """This module is responsible for evaluating board positions."""
 
-
 import chess
 import chess.engine
 
@@ -12,13 +11,13 @@ def initialize_engine() -> chess.engine.SimpleEngine:
     """
     try:
         engine = chess.engine.SimpleEngine.popen_uci(
-            "Stockfish/stockfish-windows-x86-64-avx2.exe"
+            "Stockfish\\stockfish-windows-x86-64-avx2.exe"
         )
     except (
         FileNotFoundError
     ):  # This happens when we run this file from the "lpspectator" directory
         engine = chess.engine.SimpleEngine.popen_uci(
-            "../Stockfish/stockfish-windows-x86-64-avx2.exe"
+            "..\\Stockfish\\stockfish-windows-x86-64-avx2.exe"
         )
     return engine
 

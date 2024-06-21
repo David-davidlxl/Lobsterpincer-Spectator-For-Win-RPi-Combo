@@ -1,6 +1,5 @@
 """This module is responsible for playing audio."""
 
-
 AUDIO_DIR = "Audio"
 
 
@@ -21,16 +20,16 @@ def play_audio_with_pygame(audio_file: str):
         Note that this filename should include the ".wav" extension.
     """
     try:
-        fs, _ = wavfile.read(AUDIO_DIR + "/" + audio_file)
+        fs, _ = wavfile.read(AUDIO_DIR + "\\" + audio_file)
         pygame.mixer.init(frequency=fs)
-        pygame.mixer.music.load(AUDIO_DIR + "/" + audio_file)
+        pygame.mixer.music.load(AUDIO_DIR + "\\" + audio_file)
     except (
         FileNotFoundError
     ):  # This happens when we run this file from the "lpspectator" directory
         try:
-            fs, _ = wavfile.read("../" + AUDIO_DIR + "/" + audio_file)
+            fs, _ = wavfile.read("..\\" + AUDIO_DIR + "\\" + audio_file)
             pygame.mixer.init(frequency=fs)
-            pygame.mixer.music.load("../" + AUDIO_DIR + "/" + audio_file)
+            pygame.mixer.music.load("..\\" + AUDIO_DIR + "\\" + audio_file)
         except FileNotFoundError:
             import sys
 

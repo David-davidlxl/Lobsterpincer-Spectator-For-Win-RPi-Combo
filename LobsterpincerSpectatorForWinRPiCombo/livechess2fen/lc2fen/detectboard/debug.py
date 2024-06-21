@@ -1,6 +1,5 @@
 """This is the module for debugging utilities."""
 
-
 import itertools
 from copy import copy
 from random import randint

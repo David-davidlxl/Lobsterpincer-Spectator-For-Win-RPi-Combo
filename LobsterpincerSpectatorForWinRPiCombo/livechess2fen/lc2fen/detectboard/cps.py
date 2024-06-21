@@ -1,6 +1,5 @@
 """This is the chessboard-position-search (CPS) module."""
 
-
 import collections
 import itertools
 import math

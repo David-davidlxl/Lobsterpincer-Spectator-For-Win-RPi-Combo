@@ -1,6 +1,5 @@
 """This module is responsible for capturing and labeling images."""
 
-
 import os
 
 import cv2
@@ -280,7 +279,8 @@ if __name__ == "__main__":
             pressed_key = cv2.waitKey(1)
             if pressed_key == ord("c"):
                 cv2.imwrite(
-                    f"Captured Images/{count}.png", img_perspective_transformed
+                    f"Captured Images\\{count}.png",
+                    img_perspective_transformed,
                 )
                 count += 1
             if pressed_key == ord("q"):
@@ -340,7 +340,7 @@ if __name__ == "__main__":
                 save_slider_values()
                 board.push(moves[count])
                 cv2.imwrite(
-                    f"Captured Images/{convert_board_to_filename(board)}",
+                    f"Captured Images\\{convert_board_to_filename(board)}",
                     img_perspective_transformed,
                 )
                 count += 1

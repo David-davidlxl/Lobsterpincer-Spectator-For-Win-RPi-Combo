@@ -9,7 +9,6 @@ Note: this program is a slight modification of the "dataset.py" program
 (https://github.com/davidmallasen/LiveChess2FEN).
 """
 
-
 import os
 import shutil
 from random import shuffle

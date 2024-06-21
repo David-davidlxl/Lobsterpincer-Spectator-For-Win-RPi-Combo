@@ -4,7 +4,6 @@ Note: the LCD screen is assumed to be able to display at most two lines
 of text with each line having a maximum of 16 characters.
 """
 
-
 import RPi.GPIO as GPIO
 
 from RPLCD import CharLCD

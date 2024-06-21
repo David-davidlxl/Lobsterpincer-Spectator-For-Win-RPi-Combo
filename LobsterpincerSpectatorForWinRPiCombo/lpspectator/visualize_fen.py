@@ -1,6 +1,5 @@
 """This module is responsible for visualizing FEN strings."""
 
-
 from io import BytesIO
 from urllib import request
 

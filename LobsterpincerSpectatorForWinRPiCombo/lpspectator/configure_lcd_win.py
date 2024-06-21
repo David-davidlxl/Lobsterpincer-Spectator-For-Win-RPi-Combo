@@ -1,6 +1,5 @@
 """This module is responsible for configuring RPi's LCD from a PC."""
 
-
 import subprocess
 
 # import sys  # This could be useful for debugging
@@ -63,7 +62,7 @@ def run_lcd_configuration_script_on_rpi(last_move_san: str):
         )
 
     abs_path_of_powershell_script = (
-        f"{ABS_PATH_OF_MAIN_PROJECT_FOLDER}\{filename_of_powershell_script}"
+        f"{ABS_PATH_OF_MAIN_PROJECT_FOLDER}\\{filename_of_powershell_script}"
     )
 
     subprocess.Popen(

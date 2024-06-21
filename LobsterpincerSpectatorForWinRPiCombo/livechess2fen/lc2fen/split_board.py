@@ -5,7 +5,6 @@ splits a board into the 64 squares and a more advanced method that takes
 into account the piece height and perspective.
 """
 
-
 import cv2
 
 

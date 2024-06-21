@@ -4,7 +4,6 @@
 into `ModuleNotFoundError` if you run this file directly.)
 """
 
-
 import chess.engine
 import cv2
 from time import sleep

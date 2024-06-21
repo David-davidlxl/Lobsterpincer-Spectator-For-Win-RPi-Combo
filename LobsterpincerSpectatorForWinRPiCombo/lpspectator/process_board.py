@@ -7,7 +7,6 @@ The three functions in this module are invoked in the main program
 into `ModuleNotFoundError` if you run this file directly.)
 """
 
-
 import chess
 import chess.engine
 import chess.pgn

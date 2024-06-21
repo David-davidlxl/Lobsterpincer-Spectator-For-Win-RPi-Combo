@@ -1,6 +1,5 @@
 """This module is responsible for predicting board configurations."""
 
-
 import glob
 import os
 import shutil
@@ -54,7 +53,7 @@ def predict_board_keras(
     path="",
     a1_pos="",
     board_corners=None,
-    previous_fen: (str | None) = None,
+    previous_fen: str | None = None,
     must_detect_move: bool = False,
 ) -> tuple[str, list[list[int]], str | None]:
     """Predict FEN from board image using Keras for inference.
@@ -143,7 +142,7 @@ def predict_board_onnx(
     path="",
     a1_pos="",
     board_corners=None,
-    previous_fen: (str | None) = None,
+    previous_fen: str | None = None,
     must_detect_move: bool = False,
 ) -> tuple[str, list[list[int]], str | None]:
     """Predict FEN from board image using ONNX for inference.
@@ -231,8 +230,8 @@ def predict_board(
     board_path: str,
     a1_pos: str,
     obtain_piece_probs_for_all_64_squares,
-    board_corners: (list[list[int]] | None) = None,
-    previous_fen: (str | None) = None,
+    board_corners: list[list[int]] | None = None,
+    previous_fen: str | None = None,
     must_detect_move: bool = False,
 ) -> tuple[str, list[list[int]], str | None]:
     """Predict the FEN string from a chessboard image.
@@ -321,7 +320,7 @@ def predict_board(
 
 
 def detect_input_board(
-    board_path: str, board_corners: (list[list[int]] | None) = None
+    board_path: str, board_corners: list[list[int]] | None = None
 ) -> list[list[int]]:
     """Detect the input board.
 

@@ -1,8 +1,10 @@
 """This module is responsible for generating the FEN string."""
 
-
 import numpy as np
 import cv2
+import os
+
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 from keras.applications.imagenet_utils import (
     preprocess_input as prein_squeezenet1p1,
 )
@@ -28,18 +30,18 @@ except (
     except ModuleNotFoundError:
         print(
             "Please make sure to set your terminal's directory to "
-            '"lpspectator" with `cd .\lpspectator\` before running this file'
+            '"lpspectator" with `cd .\\lpspectator\\` before running this file'
         )
         sys.exit()
 
 
 ACTIVATE_KERAS = False
-MODEL_PATH_KERAS = "livechess2fen/selected_models/SqueezeNet1p1_all_last.h5"
+MODEL_PATH_KERAS = "livechess2fen\\selected_models\\SqueezeNet1p1_all_last.h5"
 IMG_SIZE_KERAS = 227
 PRE_INPUT_KERAS = prein_squeezenet1p1
 
 ACTIVATE_ONNX = True
-MODEL_PATH_ONNX = "livechess2fen/selected_models/SqueezeNet1p1_all_last.onnx"
+MODEL_PATH_ONNX = "livechess2fen\\selected_models\\SqueezeNet1p1_all_last.onnx"
 IMG_SIZE_ONNX = 227
 PRE_INPUT_ONNX = prein_squeezenet1p1
 
@@ -47,8 +49,8 @@ PRE_INPUT_ONNX = prein_squeezenet1p1
 def predict_fen_and_move(
     img: np.ndarray,
     a1_pos: str = "BL",
-    board_corners: (list[list[int]] | None) = None,
-    previous_fen: (str | None) = None,
+    board_corners: list[list[int]] | None = None,
+    previous_fen: str | None = None,
     must_detect_move: bool = False,
 ) -> tuple[str, str | None]:
     """Predict FEN of current position and move in previous position.
@@ -125,14 +127,14 @@ def predict_fen_and_move(
 if (
     __name__ == "__main__"
 ):  # Note: make sure to switch to the "lpspectator" directory
-    # in the terminal (`cd lpspectator/`) before running this file directly
-    MODEL_PATH_KERAS = "../" + MODEL_PATH_KERAS
-    MODEL_PATH_ONNX = "../" + MODEL_PATH_ONNX
+    # in the terminal (`cd .\lpspectator\`) before running this file directly
+    MODEL_PATH_KERAS = "..\\" + MODEL_PATH_KERAS
+    MODEL_PATH_ONNX = "..\\" + MODEL_PATH_ONNX
     import time
 
-    # img = cv2.imread("../Test Images/before_0-0-0_by_black.png")
-    img = cv2.imread("../Test Images/after_0-0-0_by_black.png")
-    # img = cv2.imread("../Test Images/test.png")
+    # img = cv2.imread("..\\Test Images\\before_0-0-0_by_black.png")
+    img = cv2.imread("..\\Test Images\\after_0-0-0_by_black.png")
+    # img = cv2.imread("..\\Test Images\\test.png")
 
     a1_pos = "BL"
     board_corners = [[0, 0], [1199, 0], [1199, 1199], [0, 1199]]

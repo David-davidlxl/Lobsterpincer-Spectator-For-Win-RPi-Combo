@@ -11,7 +11,6 @@ program of the Chessboard recognizer project
 (https://github.com/linrock/chessboard-recognizer).
 """
 
-
 import os
 import shutil
 from glob import glob

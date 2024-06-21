@@ -1,6 +1,5 @@
 """This module works with the LAPS models."""
 
-
 from keras.models import model_from_json
 
 

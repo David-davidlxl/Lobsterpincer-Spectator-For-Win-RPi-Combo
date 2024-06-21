@@ -1,6 +1,5 @@
 """This is the lattice-points-search module."""
 
-
 import collections
 
 import cv2

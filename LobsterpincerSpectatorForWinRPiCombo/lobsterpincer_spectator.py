@@ -13,7 +13,6 @@ Before running this main program, make sure to
 (the directory that directly contains this file)
 """
 
-
 import time
 
 import cv2

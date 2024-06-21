@@ -1,6 +1,5 @@
 """This is the straight-line-detector module."""
 
-
 import math
 
 import cv2

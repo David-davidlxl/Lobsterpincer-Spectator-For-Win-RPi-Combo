@@ -1,6 +1,5 @@
 """This module is responsible for FEN-related transformations."""
 
-
 PIECE_TYPES = ["r", "n", "b", "q", "k", "p", "P", "R", "N", "B", "Q", "K", "_"]
 
 

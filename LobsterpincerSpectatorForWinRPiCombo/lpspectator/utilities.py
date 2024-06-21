@@ -4,7 +4,6 @@ Most of these variables and helper functions are related to the
 communication between the Windows computer and Raspberry Pi.
 """
 
-
 import os
 import subprocess
 

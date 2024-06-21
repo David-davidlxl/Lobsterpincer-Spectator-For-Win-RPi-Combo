@@ -1,6 +1,5 @@
 """This module is responsible for configuring RPi's LEDs from RPi."""
 
-
 import RPi.GPIO as GPIO
 
 
