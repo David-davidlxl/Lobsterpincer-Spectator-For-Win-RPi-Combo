@@ -310,7 +310,8 @@ if __name__ == "__main__":
         print(
             "\nTune the slider values in the trackbar window until the "
             "perspective-transformed image contains precisely the 64 squares "
-            "of the chessboard"
+            "of the chessboard (oriented such that the a1 square is in the "
+            "bottom-left corner)"
         )
 
         print(
