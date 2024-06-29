@@ -89,20 +89,36 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 
 Since Raspberry Pi is only used for controlling the LED lights and LCD screen, the software installation procedure for it is very simple.
 
-First, run the following commands in Raspberry Pi's Terminal (you can copy, paste, and run all of them at once):
+First, flash a 64-bit Bookworm operating system onto Raspberry Pi's micro SD card. You can do so by downloading, for example, "2024-03-15-raspios-bookworm-arm64.img.xz" from https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2024-03-15/ and flashing it with the official Raspberry Pi Imager.
+
+Next, run the following commands in Raspberry Pi's Terminal (you can copy, paste, and run all of them at once):
 
 ```
 sudo apt-get update
 sudo apt-get upgrade -y
 
 sudo apt-get install git python3-pip
-
-sudo -H pip3 install RPLCD
 ```
 
-Next, reboot Raspberry Pi with the `sudo reboot` command.
+Next, create a virtual environment named `LobsterpincerSpectatorForWinRPiCombo` by running the following command:
 
-Finally, download "configure_led_rpi.py" and "configure_lcd_rpi.py" (in the "LobsterpincerSpectatorForWinRPiCombo/lpspectator" folder) onto Raspberry Pi's Desktop.
+```
+python -m venv LobsterpincerSpectatorForWinRPiCombo --system-site-packages
+```
+
+Next, activate the virtual environment by running the following command:
+
+```
+source LobsterpincerSpectatorForWinRPiCombo/bin/activate
+```
+
+Next, install [`RPLCD`](https://pypi.org/project/RPLCD/) inside the virtual environment by running the following command:
+
+```
+pip install RPLCD
+```
+
+Finally, reboot Raspberry Pi with the `sudo reboot` command.
 
 ## Hardware Configuration
 

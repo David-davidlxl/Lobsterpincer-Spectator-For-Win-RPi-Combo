@@ -42,6 +42,7 @@ def run_lcd_configuration_script_on_rpi(last_move_san: str):
     with open(filename_of_powershell_script, "w") as file:
         if last_move_san is not None:
             terminal_command_for_rpi = (
+                "source LobsterpincerSpectatorForWinRPiCombo/bin/activate; "
                 f"cd Desktop/; python configure_lcd_rpi.py {last_move_san}"
             )
             file.write(
@@ -50,6 +51,7 @@ def run_lcd_configuration_script_on_rpi(last_move_san: str):
             )
         else:
             terminal_command_for_rpi = (
+                "source LobsterpincerSpectatorForWinRPiCombo/bin/activate; "
                 "cd Desktop/; python configure_lcd_rpi.py"
             )
             file.write(

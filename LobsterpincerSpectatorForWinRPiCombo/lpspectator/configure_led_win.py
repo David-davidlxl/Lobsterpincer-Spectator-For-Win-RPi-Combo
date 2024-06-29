@@ -37,6 +37,7 @@ def run_led_configuration_script_on_rpi(
     filename_of_powershell_script = "tell_rpi_to_configure_led.ps1"
     with open(filename_of_powershell_script, "w") as file:
         terminal_command_for_rpi = (
+            "source LobsterpincerSpectatorForWinRPiCombo/bin/activate; "
             "cd Desktop/; python configure_led_rpi.py "
             f"{num_of_lights_to_turn_on} {cleanup}"
         )
