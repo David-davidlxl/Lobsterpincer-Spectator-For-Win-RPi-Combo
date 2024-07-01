@@ -30,6 +30,8 @@ Lobsterpincer Spectator (named after the "Lobster Pincer mate") is a chessboard 
 
 ![](README%20attachments/High-level%20diagram%20for%20overview.png)
 
+![](README%20attachments/Overview%20of%20entire%20system.jpg)
+
 [![](https://markdown-videos.vercel.app/youtube/MtSMa02I1Co?width=960&height=540)](https://youtu.be/MtSMa02I1Co)
 
 ## Software Installation
